@@ -526,7 +526,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 16px;
-            margin-bottom: 24px;
+            margin-bottom: 8px;
             animation: fadeIn 0.4s ease 0.1s both;
         }
 
@@ -601,7 +601,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 16px;
-            margin-bottom: 16px;
+            margin-bottom: 4px;
             padding: 0 4px;
         }
 
@@ -1589,43 +1589,39 @@
             });
             buttonElement.classList.add('active');
 
+            // Ocultar la grilla de botones para que el formulario suba
+            const formsNav = document.getElementById('formsNav');
+            formsNav.style.display = 'none';
+
             // Mostrar contenedor del formulario y actualizar título
             const formContentWrapper = document.getElementById('formContentWrapper');
             document.getElementById('formTitle').textContent = formName;
             formContentWrapper.style.display = 'block';
 
-            // Cargar formulario con animación
+            // Cargar formulario
             const formContent = document.getElementById('formContent');
             formContent.innerHTML = '';
-            setTimeout(() => {
-                if (form.iframe) {
-                    formContent.innerHTML = form.iframe;
-                    // Desabilitar scroll inmediatamente después de inyectar
-                    disableIframeScroll();
-                    // Volver a intentar después de un delay para asegurar que el iframe esté cargado
-                    setTimeout(() => {
-                        disableIframeScroll();
-                    }, 500);
-                    setTimeout(() => {
-                        disableIframeScroll();
-                    }, 1000);
-                } else {
-                    // Mostrar placeholder para elementos sin formulario
-                    formContent.innerHTML = `
-                        <div style="padding: 40px 20px; text-align: center; background: linear-gradient(135deg, #f5a568 0%, #e8784f 100%); border-radius: 8px; color: white;">
-                            <div style="font-size: 48px; margin-bottom: 15px;">📋</div>
-                            <h3 style="margin: 0 0 10px 0; font-size: 20px;">${formName}</h3>
-                            <p style="margin: 0; font-size: 14px; opacity: 0.9;">Esta sección estará disponible pronto</p>
-                        </div>
-                    `;
-                }
-            }, 100);
-
-            // Scroll suave al formulario
-            setTimeout(() => {
-                formContentWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                // Desabilitar scroll del iframe en iOS después de cargarlo
+            
+            if (form.iframe) {
+                formContent.innerHTML = form.iframe;
                 disableIframeScroll();
+            } else {
+                // Mostrar placeholder para elementos sin formulario
+                formContent.innerHTML = `
+                    <div style="padding: 40px 20px; text-align: center; background: linear-gradient(135deg, #f5a568 0%, #e8784f 100%); border-radius: 8px; color: white;">
+                        <div style="font-size: 48px; margin-bottom: 15px;">📋</div>
+                        <h3 style="margin: 0 0 10px 0; font-size: 20px;">${formName}</h3>
+                        <p style="margin: 0; font-size: 14px; opacity: 0.9;">Esta sección estará disponible pronto</p>
+                    </div>
+                `;
+            }
+            
+            // Scroll automático suave al formulario
+            setTimeout(() => {
+                const formContainer = document.querySelector('.form-container');
+                if (formContainer) {
+                    formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             }, 200);
         }
 
@@ -1682,6 +1678,10 @@
                 btn.classList.remove('active');
             });
             currentForm = null;
+            
+            // Volver a mostrar la grilla de botones
+            const formsNav = document.getElementById('formsNav');
+            formsNav.style.display = 'grid';
         }
 
         function backToMenu() {
