@@ -592,6 +592,8 @@
         /* CONTENEDOR DEL FORMULARIO SELECCIONADO */
         .form-content-wrapper {
             animation: slideUp 0.3s ease;
+            max-height: none;
+            overflow-y: visible;
         }
 
         .form-header-bar {
@@ -644,10 +646,18 @@
             overflow: hidden;
             width: 100%;
             box-sizing: border-box;
+            max-height: none;
         }
 
         .form-container:hover {
             box-shadow: 0 12px 36px rgba(199, 92, 44, 0.1);
+        }
+
+        #formContent {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            overflow-y: visible;
         }
 
         .form-container iframe {
@@ -782,6 +792,23 @@
 
             .form-container {
                 padding: 24px;
+                max-height: none;
+            }
+
+            #formContent {
+                width: 100%;
+                max-width: 100%;
+                overflow-x: hidden;
+                overflow-y: visible;
+            }
+
+            .form-container iframe {
+                height: auto !important;
+                border-radius: 10px;
+                width: 100%;
+                max-width: 100%;
+                overflow: hidden;
+                display: block;
             }
 
             .forms-footer-nav {
@@ -1174,6 +1201,24 @@
                 box-sizing: border-box;
                 overflow-x: hidden;
                 margin: 0;
+                max-height: none !important;
+            }
+
+            #formContent {
+                width: 100%;
+                max-width: 100%;
+                overflow-x: hidden;
+                overflow-y: visible;
+            }
+
+            .form-container iframe {
+                height: auto !important;
+                min-height: 100vh;
+                border-radius: 10px;
+                width: 100%;
+                max-width: 100%;
+                overflow: hidden;
+                display: block;
             }
 
             .form-btn, .nav-btn {
@@ -1437,7 +1482,8 @@
         function openSearchModal() {
             searchModalOverlay.classList.add('active');
             searchModal.classList.add('active');
-            searchModalInput.focus();
+            // NO hacer focus automático - dejamos que el usuario lo haga
+            // searchModalInput.focus();
             searchModalInput.value = '';
             renderSearchList('');
         }
