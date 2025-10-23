@@ -117,7 +117,7 @@
         .weather-widget {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             color: white;
             font-size: 0.72em;
             flex-wrap: wrap;
@@ -825,7 +825,7 @@
             }
 
             .header-content {
-                gap: 12px;
+                gap: 10px;
                 justify-content: space-between;
                 align-items: center;
             }
@@ -843,14 +843,14 @@
             }
 
             .weather-widget {
-                font-size: 0.68em;
+                font-size: 0.67em;
                 gap: 0;
                 flex-direction: row;
                 align-items: center;
                 flex: 1;
                 justify-content: flex-end;
                 background: rgba(255, 255, 255, 0.08);
-                padding: 6px 12px;
+                padding: 6px 10px;
                 border-radius: 8px;
                 backdrop-filter: blur(8px);
             }
@@ -862,9 +862,9 @@
                 border-radius: 0;
                 display: flex;
                 align-items: center;
-                border-right: 1px solid rgba(255, 255, 255, 0.2);
-                padding-right: 10px;
-                margin-right: 10px;
+                border-right: 1px solid rgba(255, 255, 255, 0.15);
+                padding-right: 8px;
+                margin-right: 8px;
             }
 
             .date-display {
@@ -881,7 +881,7 @@
             }
 
             .weather-info {
-                gap: 8px;
+                gap: 6px;
                 flex-direction: row;
                 align-items: center;
                 width: auto;
@@ -892,27 +892,28 @@
             .weather-info > div {
                 display: flex !important;
                 align-items: center;
-                gap: 3px !important;
+                gap: 2px !important;
                 padding: 0 !important;
-                font-size: 0.85em !important;
+                font-size: 0.84em !important;
                 width: auto;
                 background: transparent !important;
                 border-radius: 0 !important;
                 white-space: nowrap;
+
             }
 
             .weather-info > div:nth-child(1) {
-                gap: 3px;
+                gap: 2px;
             }
 
             .weather-info > div:nth-child(2) {
-                border-left: 1px solid rgba(255, 255, 255, 0.2);
-                padding-left: 8px;
+                border-left: 1px solid rgba(255, 255, 255, 0.15);
+                padding-left: 6px;
             }
 
             .weather-info > div:nth-child(3) {
-                border-left: 1px solid rgba(255, 255, 255, 0.2);
-                padding-left: 8px;
+                border-left: 1px solid rgba(255, 255, 255, 0.15);
+                padding-left: 6px;
             }
 
             .parcela-header {
@@ -1038,29 +1039,32 @@
                 width: 100%;
                 flex-direction: column;
                 align-items: flex-start;
-                background: rgba(255, 255, 255, 0.08);
-                padding: 8px 10px;
+                background: rgba(255, 255, 255, 0.12);
+                padding: 10px;
                 border-radius: 8px;
-                backdrop-filter: blur(8px);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.15);
             }
 
             .datetime-info {
-                gap: 8px;
+                gap: 6px;
                 padding: 0;
                 background: transparent;
                 border-radius: 0;
                 display: flex;
                 align-items: center;
                 width: 100%;
-                margin-bottom: 6px;
+                margin-bottom: 8px;
+                flex-wrap: wrap;
             }
 
             .date-display {
                 font-size: 0.95em;
                 font-weight: 700;
-                background: rgba(255, 255, 255, 0.15);
+                background: rgba(255, 255, 255, 0.18);
                 padding: 4px 8px;
-                border-radius: 4px;
+                border-radius: 5px;
+                white-space: nowrap;
             }
 
             .date-display span {
@@ -1070,9 +1074,24 @@
             .time-display {
                 padding: 4px 8px;
                 font-size: 0.95em;
-                background: rgba(255, 255, 255, 0.15);
-                border-radius: 4px;
+                background: rgba(255, 255, 255, 0.18);
+                border-radius: 5px;
                 font-weight: 700;
+                white-space: nowrap;
+            }
+
+            .location-display {
+                font-size: 0.88em;
+                font-weight: 500;
+                background: rgba(255, 255, 255, 0.15);
+                padding: 4px 8px;
+                border-radius: 5px;
+                flex: 1;
+                min-width: 80px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                opacity: 0.9;
             }
 
             .weather-info {
@@ -1085,30 +1104,27 @@
             .weather-info > div {
                 display: flex !important;
                 align-items: center;
-                gap: 6px !important;
+                gap: 2px !important;
                 padding: 4px 0 !important;
-                font-size: 0.9em !important;
+                font-size: 0.81em !important;
                 width: 100%;
                 background: transparent !important;
                 border-radius: 0 !important;
-                white-space: nowrap;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            }
-
-            .weather-info > div:last-child {
-                border-bottom: none;
-            }
-
-            .weather-info > div:nth-child(1) {
-                gap: 5px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+                flex-wrap: wrap;
             }
 
             .weather-info > div:nth-child(2) {
-                gap: 8px;
+                border-bottom: none;
             }
 
             .weather-info > div span {
+                white-space: nowrap;
                 display: inline;
+            }
+
+            .weather-info > div span[style*="opacity: 0.4"] {
+                margin: 0 1px;
             }
 
             .parcela-header {
@@ -1151,6 +1167,7 @@
                 padding: 14px;
                 font-size: 0.85em;
                 gap: 6px;
+                min-height: auto;
             }
 
             .form-btn-icon {
@@ -1572,6 +1589,7 @@
                 <div class="datetime-info">
                     <span class="date-display" id="dateDisplay"></span>
                     <span class="time-display" id="timeDisplay"></span>
+                    <span class="location-display" id="locationDisplay"></span>
                 </div>
                 <div class="weather-info" id="weatherInfo">
                     <span class="weather-loading">Cargando...</span>
@@ -2059,6 +2077,24 @@
                 
                 console.log('Ubicación detectada:', locationName, 'Coordenadas:', lat, lon);
                 
+                // Crear versión abreviada de la ubicación
+                let abbreviatedLocation = locationName;
+                if (locationName.length > 20) {
+                    // Si es muy larga, abreviar
+                    const parts = locationName.split(',');
+                    abbreviatedLocation = parts[0]; // Solo la ciudad
+                    if (parts.length > 1) {
+                        const statePart = parts[1].trim().split('(')[0].trim();
+                        if (statePart) {
+                            abbreviatedLocation += ' ' + statePart.substring(0, 3).toUpperCase(); // Abreviar estado
+                        }
+                    }
+                }
+                
+                // Actualizar la ubicación en el header
+                document.getElementById('locationDisplay').innerHTML = `📍 ${abbreviatedLocation}`;
+                document.getElementById('locationDisplay').title = locationName;
+                
                 // API de Open-Meteo con más datos relevantes para agricultura
                 const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,weather_code&hourly=uv_index&timezone=auto`;
                 const response = await fetch(weatherUrl);
@@ -2078,31 +2114,26 @@
                     const uvIndex = data.hourly.uv_index[currentHour] || 0;
                     const uvLevel = getUVLevel(uvIndex);
                     
-                    // Construir HTML compacto y bien organizado
+                    // Construir HTML compacto e inline
                     let weatherHTML = `
-                        <div style="display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.12); padding: 2px 6px; border-radius: 6px;">
+                        <div style="display: flex; align-items: center; gap: 2px; font-size: 0.84em; width: 100%; flex-wrap: wrap; background: rgba(255,255,255,0.1); padding: 3px 6px; border-radius: 5px;">
                             <span style="font-size: 1.1em;">${weatherIcon}</span>
-                            <span style="font-weight: 700; font-size: 1em;">${temp}°C</span>
-                            <span style="font-weight: 500; font-size: 0.88em; text-transform: capitalize;">${weatherDesc}</span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 5px; font-size: 0.85em; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 5px;">
-                            <span title="Humedad">💧 ${humidity}%</span>
-                            <span title="Viento">💨 ${windSpeed}km</span>
+                            <span style="font-weight: 700;">${temp}°C</span>
+                            <span style="font-weight: 500; text-transform: capitalize;">${weatherDesc}</span>
+                            <span style="opacity: 0.4;">•</span>
+                            <span title="Humedad">💧${humidity}%</span>
+                            <span title="Viento">💨${windSpeed}km</span>
                     `;
                     
                     if (uvIndex > 0) {
-                        weatherHTML += `<span title="Índice UV: ${uvLevel}" style="font-weight: 600;">☀️ UV${Math.round(uvIndex)}</span>`;
+                        weatherHTML += `<span style="opacity: 0.4;">•</span><span title="Índice UV: ${uvLevel}" style="font-weight: 600;">☀️${Math.round(uvIndex)}</span>`;
                     }
                     
                     if (precipitation > 0) {
-                        weatherHTML += `<span title="Precipitación" style="font-weight: 600;">🌧️ ${precipitation}mm</span>`;
+                        weatherHTML += `<span title="Precipitación" style="font-weight: 600;">🌧️${precipitation}mm</span>`;
                     }
                     
-                    weatherHTML += `</div>
-                        <div style="font-size: 0.82em; opacity: 0.85; font-weight: 500; background: rgba(255,255,255,0.08); padding: 2px 6px; border-radius: 5px;" title="Lat: ${lat.toFixed(4)}, Lon: ${lon.toFixed(4)}">
-                            📍 ${locationName}
-                        </div>
-                    `;
+                    weatherHTML += `</div>`;
                     
                     document.getElementById('weatherInfo').innerHTML = weatherHTML;
                 }
