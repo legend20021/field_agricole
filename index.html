@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGRICOLE COOPERATIVA - Gestión de Parcelas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #c75c2c;
+            --accent-green: #e8784f;
+            --light-green: #f5a568;
+            --dark-bg: #0f1419;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #5a5a5a;
+            --border-light: #e0e0e0;
+            --success-color: #f97316;
+            --warning-color: #ff9800;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            max-width: 100%;
+        }
+
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: 50px;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
+            padding: 10px 20px;
+            box-shadow: 0 4px 16px rgba(199, 92, 44, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            animation: slideDown 0.4s ease;
+            border-bottom: 1px solid rgba(245, 165, 104, 0.15);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .logo-brand:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--light-green), var(--accent-green));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 3px 10px rgba(199, 92, 44, 0.25);
+            transition: all 0.2s ease;
+        }
+
+        .logo-icon:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(199, 92, 44, 0.3);
+        }
+
+        .logo-text h1 {
+            color: white;
+            font-size: 1em;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+            margin: 0;
+        }
+
+        .logo-text p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.65em;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 50px 20px;
+            width: 100%;
+        }
+
+        /* ===== SEARCH SECTION ===== */
+        .search-section {
+            margin-bottom: 45px;
+            animation: slideUp 0.4s ease 0.08s both;
+        }
+
+        .search-title {
+            text-align: center;
+            margin-bottom: 36px;
+            animation: slideUp 0.4s ease 0.1s both;
+        }
+
+        .search-title h2 {
+            color: var(--primary-green);
+            font-size: 2.3em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: -0.6px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .search-title p {
+            color: #6a6a6a;
+            font-size: 1.1em;
+            font-weight: 400;
+            letter-spacing: 0.2px;
+        }
+
+        .search-btn {
+            display: block;
+            margin: 0 auto;
+            padding: 14px 48px;
+            background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.05em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 10px 32px rgba(199, 92, 44, 0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            letter-spacing: 0.3px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-btn-icon {
+            font-size: 1.3em;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 42px rgba(199, 92, 44, 0.25);
+        }
+
+        .search-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* SEARCH MODAL */
+        .search-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            z-index: 9999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .search-modal-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .search-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 20px;
+            z-index: 10000;
+            box-shadow: 0 50px 150px rgba(0, 0, 0, 0.4), 0 20px 80px rgba(199, 92, 44, 0.25);
+            width: 95%;
+            max-width: 800px;
+            max-height: 85vh;
+            display: none;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.9);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .search-modal.active {
+            display: flex;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .search-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 28px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
+            border-bottom: none;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .search-modal-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -60px;
+            width: 180px;
+            height: 180px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .search-modal-header h3 {
+            color: white;
+            font-size: 1.35em;
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .search-modal-close {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            font-size: 28px;
+            cursor: pointer;
+            color: white;
+            padding: 0;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+            border-radius: 50%;
+            position: relative;
+            z-index: 2;
+            font-weight: 300;
+            line-height: 1;
+        }
+
+        .search-modal-close:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: rotate(90deg) scale(1.08);
+        }
+
+        .search-modal-close:active {
+            transform: rotate(90deg) scale(0.95);
+        }
+
+        .search-modal-content {
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .search-modal-input {
+            padding: 16px 20px;
+            font-size: 1.05em;
+            border: 2px solid #e8e8e8;
+            border-radius: 14px;
+            background: #fafbf9;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            color: var(--text-primary);
+            letter-spacing: 0.2px;
+            margin-bottom: 18px;
+            flex-shrink: 0;
+        }
+
+        .search-modal-input:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            background: white;
+            box-shadow: 0 8px 28px rgba(199, 92, 44, 0.12);
+        }
+
+        .search-modal-input::placeholder {
+            color: #a8a8a8;
+            font-weight: 400;
+        }
+
+        .search-modal-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 0;
+        }
+
+        .search-modal-item {
+            padding: 14px 20px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            border-bottom: 1px solid #f5f5f5;
+            font-weight: 500;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            letter-spacing: 0.15px;
+        }
+
+        .search-modal-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-modal-item:hover {
+            background: linear-gradient(90deg, rgba(232, 120, 79, 0.07) 0%, transparent 100%);
+            padding-left: 28px;
+            color: var(--primary-green);
+        }
+
+        .search-modal-item.selected {
+            background: linear-gradient(90deg, rgba(199, 92, 44, 0.1) 0%, transparent 100%);
+            color: var(--primary-green);
+            font-weight: 600;
+            border-left: 4px solid var(--accent-green);
+            padding-left: 16px;
+        }
+
+        .search-modal-item::before {
+            content: '🌾';
+            font-size: 1.2em;
+            flex-shrink: 0;
+        }
+
+        .search-modal-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .search-modal-list::-webkit-scrollbar-track {
+            background: #f8f8f8;
+            border-radius: 10px;
+        }
+
+        .search-modal-list::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--accent-green), var(--light-green));
+            border-radius: 10px;
+        }
+
+        .search-modal-list::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--primary-green), var(--accent-green));
+        }
+
+        .selected-parcela {
+            text-align: center;
+            margin-top: 28px;
+            font-size: 1.1em;
+            color: white;
+            font-weight: 700;
+            animation: slideUp 0.3s ease;
+            padding: 16px 22px;
+            background: linear-gradient(135deg, var(--light-green), var(--accent-green));
+            border-left: none;
+            border-radius: 12px;
+            box-shadow: 0 8px 26px rgba(199, 92, 44, 0.15);
+            letter-spacing: 0.25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .selected-parcela::before {
+            content: '✓';
+            display: inline-block;
+            margin-right: 6px;
+            font-size: 1.02em;
+            font-weight: 800;
+            animation: popIn 0.25s ease;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0) rotate(-180deg);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1) rotate(0);
+            }
+        }
+
+        /* ===== FORMS SECTION ===== */
+        /* ===== PARCELA HEADER ===== */
+        .parcela-header {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
+            padding: 18px 20px;
+            border-radius: 16px;
+            margin-bottom: 32px;
+            animation: slideDown 0.3s ease;
+            box-shadow: 0 8px 24px rgba(199, 92, 44, 0.12);
+        }
+
+        .parcela-header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .parcela-back-btn {
+            padding: 8px 14px;
+            background: rgba(255, 255, 255, 0.18);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .parcela-back-btn:hover {
+            background: rgba(255, 255, 255, 0.28);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateX(-2px);
+        }
+
+        .parcela-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .parcela-icon {
+            font-size: 1.8em;
+            flex-shrink: 0;
+        }
+
+        .parcela-details {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .parcela-details h2 {
+            color: white;
+            font-size: 1.4em;
+            margin: 0;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            letter-spacing: -0.3px;
+        }
+
+        .parcela-details p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.9em;
+            margin: 2px 0 0 0;
+            font-weight: 400;
+        }
+
+        .parcela-spacer {
+            width: 80px;
+            flex-shrink: 0;
+        }
+
+        /* ===== FORMS SECTION ===== */
+        .forms-section {
+            margin-top: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .forms-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* GRID DE CARDS DE FORMULARIOS */
+        .forms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+            animation: fadeIn 0.4s ease 0.1s both;
+        }
+
+        .form-btn {
+            padding: 20px;
+            background: white;
+            border: 2px solid #f0f0f0;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1em;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(199, 92, 44, 0.05);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            text-align: center;
+            color: var(--primary-green);
+            letter-spacing: 0.3px;
+        }
+
+        .form-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #fff9f5, #fef4ed);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            z-index: -1;
+        }
+
+        .form-btn:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-green);
+            box-shadow: 0 12px 28px rgba(199, 92, 44, 0.12);
+            color: var(--accent-green);
+        }
+
+        .form-btn:hover::before {
+            opacity: 1;
+        }
+
+        .form-btn.active {
+            background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 14px 36px rgba(199, 92, 44, 0.18);
+            transform: translateY(-4px);
+        }
+
+        .form-btn-icon {
+            font-size: 1.8em;
+        }
+
+        .form-btn-text {
+            font-size: 0.95em;
+            font-weight: 700;
+        }
+
+        /* CONTENEDOR DEL FORMULARIO SELECCIONADO */
+        .form-content-wrapper {
+            animation: slideUp 0.3s ease;
+        }
+
+        .form-header-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 16px;
+            padding: 0 4px;
+        }
+
+        .form-header-bar h3 {
+            color: var(--primary-green);
+            font-size: 1.2em;
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .form-close-btn {
+            background: #f5f5f5;
+            border: none;
+            color: #666;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .form-close-btn:hover {
+            background: #e8e8e8;
+            color: var(--primary-green);
+            transform: rotate(90deg);
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 8px 24px rgba(199, 92, 44, 0.08);
+            animation: fadeIn 0.3s ease;
+            border: 1px solid #f5f5f5;
+            transition: all 0.25s ease;
+            overflow: hidden;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .form-container:hover {
+            box-shadow: 0 12px 36px rgba(199, 92, 44, 0.1);
+        }
+
+        .form-container iframe {
+            border-radius: 12px;
+            border: none;
+            max-width: 100%;
+            width: 100%;
+            display: block;
+            overflow: hidden;
+        }
+
+        /* NAVEGACIÓN FOOTER ===== */
+        .forms-footer-nav {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 32px;
+            animation: slideUp 0.3s ease 0.2s both;
+        }
+
+        .footer-nav-btn {
+            padding: 12px 32px;
+            background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            font-size: 0.95em;
+            box-shadow: 0 6px 16px rgba(199, 92, 44, 0.12);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: 0.2px;
+        }
+
+        .footer-nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(199, 92, 44, 0.18);
+        }
+
+        .footer-nav-btn:active {
+            transform: translateY(0);
+        }
+
+        /* ANIMACIONES ===== */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* ===== RESPONSIVE TABLET (768px) ===== */
+        @media (max-width: 768px) {
+            .parcela-header {
+                padding: 14px 16px;
+                margin-bottom: 24px;
+            }
+
+            .parcela-back-btn {
+                padding: 6px 12px;
+                font-size: 0.85em;
+            }
+
+            .parcela-icon {
+                font-size: 1.5em;
+            }
+
+            .parcela-details h2 {
+                font-size: 1.2em;
+            }
+
+            .parcela-details p {
+                font-size: 0.85em;
+            }
+
+            .forms-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 12px;
+                margin-bottom: 16px;
+            }
+
+            .form-btn {
+                padding: 16px;
+                font-size: 0.9em;
+                gap: 8px;
+            }
+
+            .form-btn-icon {
+                font-size: 1.6em;
+            }
+
+            .form-header-bar {
+                margin-bottom: 12px;
+            }
+
+            .form-header-bar h3 {
+                font-size: 1.1em;
+            }
+
+            .form-close-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 1em;
+            }
+
+            .form-container {
+                padding: 24px;
+            }
+
+            .forms-footer-nav {
+                margin-top: 24px;
+                gap: 10px;
+            }
+
+            .footer-nav-btn {
+                padding: 10px 24px;
+                font-size: 0.9em;
+            }
+        }
+
+        /* ===== RESPONSIVE MOBILE (480px) ===== */
+        @media (max-width: 480px) {
+            .parcela-header {
+                padding: 12px 14px;
+                margin-bottom: 18px;
+            }
+
+            .parcela-header-top {
+                gap: 12px;
+            }
+
+            .parcela-back-btn {
+                padding: 6px 10px;
+                font-size: 0.8em;
+            }
+
+            .parcela-icon {
+                font-size: 1.3em;
+            }
+
+            .parcela-details h2 {
+                font-size: 1.1em;
+            }
+
+            .parcela-details p {
+                font-size: 0.8em;
+            }
+
+            .parcela-spacer {
+                display: none;
+            }
+
+            .forms-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                margin-bottom: 12px;
+            }
+
+            .form-btn {
+                padding: 14px;
+                font-size: 0.85em;
+                gap: 6px;
+            }
+
+            .form-btn-icon {
+                font-size: 1.4em;
+            }
+
+            .form-btn-text {
+                font-size: 0.9em;
+            }
+
+            .form-header-bar {
+                margin-bottom: 10px;
+                padding: 0 2px;
+            }
+
+            .form-header-bar h3 {
+                font-size: 1em;
+            }
+
+            .form-close-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9em;
+            }
+
+            .form-container {
+                padding: 16px;
+                border-radius: 12px;
+                width: 100%;
+                box-sizing: border-box;
+                margin: 0;
+                max-width: 100%;
+            }
+
+            .form-container iframe {
+                border-radius: 10px;
+                width: 100%;
+                max-width: 100%;
+                overflow: hidden;
+            }
+
+            .forms-footer-nav {
+                margin-top: 16px;
+                gap: 8px;
+                flex-direction: column;
+            }
+
+            .footer-nav-btn {
+                padding: 10px 16px;
+                font-size: 0.85em;
+                width: 100%;
+                justify-content: center;
+                border-radius: 10px;
+            }
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(199, 92, 44, 0.2);
+        }
+
+        .nav-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .nav-btn.secondary {
+            background: white;
+            color: var(--primary-green);
+            border: 2px solid #e8e8e8;
+            box-shadow: 0 6px 16px rgba(199, 92, 44, 0.06);
+        }
+
+        .nav-btn.secondary:hover {
+            background: #fafbf9;
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+            box-shadow: 0 10px 26px rgba(199, 92, 44, 0.12);
+        }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            text-align: center;
+            padding: 100px 20px;
+            color: var(--text-secondary);
+            position: relative;
+            z-index: 1;
+        }
+
+        .empty-state-icon {
+            font-size: 5em;
+            margin-bottom: 36px;
+            animation: float 2.8s ease-in-out infinite;
+        }
+
+        .empty-state h3 {
+            color: var(--primary-green);
+            font-size: 2.1em;
+            margin-bottom: 14px;
+            font-weight: 700;
+            letter-spacing: -0.4px;
+        }
+
+        .empty-state p {
+            font-size: 1.1em;
+            color: #6a6a6a;
+            font-weight: 400;
+            letter-spacing: 0.2px;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
+            border-top: 1px solid rgba(245, 165, 104, 0.15);
+            padding: 8px 5px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 0.75em;
+            margin-top: auto;
+            animation: slideUp 0.4s ease 0.2s both;
+            letter-spacing: 0.2px;
+        }
+
+        footer p {
+            margin: 1px 0;
+            font-weight: 500;
+        }
+
+        .footer-brand {
+            color: rgba(255, 255, 255, 1);
+            font-weight: 700;
+            letter-spacing: 0.2px;
+        }
+
+        .floating-help {
+            position: fixed;
+            bottom: 70px;
+            right: 18px;
+            width: 48px;
+            height: 48px;
+            font-size: 22px;
+            background: linear-gradient(135deg, var(--accent-green), var(--light-green));
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px rgba(199, 92, 44, 0.22);
+            transition: all 0.2s ease;
+            z-index: 997;
+        }
+
+        .floating-help:hover {
+            transform: scale(1.1) translateY(-3px);
+            box-shadow: 0 12px 32px rgba(199, 92, 44, 0.28);
+        }
+
+        .floating-help:active {
+            transform: scale(0.95);
+        }
+
+        .back-to-top {
+            display: none !important;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0) rotate(-180deg);
+            }
+            50% {
+                transform: scale(1.15);
+            }
+            100% {
+                transform: scale(1) rotate(0);
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .container {
+                padding: 35px 16px;
+                max-width: 100%;
+                width: 100%;
+                overflow-x: hidden;
+            }
+
+            .search-title h2 {
+                font-size: 1.8em;
+            }
+
+            .search-title p {
+                font-size: 1em;
+            }
+
+            .forms-header h2 {
+                font-size: 1.8em;
+            }
+
+            .forms-header p {
+                font-size: 1em;
+            }
+
+            .form-container {
+                padding: 28px;
+                min-height: auto;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+                overflow-x: hidden;
+            }
+
+            .form-btn, .nav-btn {
+                padding: 12px 32px;
+                font-size: 0.9em;
+            }
+
+            .forms-nav, .navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .floating-help {
+                width: 44px;
+                height: 44px;
+                font-size: 20px;
+                bottom: 60px;
+            }
+
+            .search-wrapper {
+                gap: 8px;
+            }
+
+            .search-icon {
+                font-size: 1.4em;
+            }
+
+            .search-input {
+                padding: 12px 16px;
+                font-size: 0.95em;
+            }
+
+            .dropdown-list {
+                max-width: 90%;
+                max-height: 70vh;
+            }
+
+            .dropdown-header h3 {
+                font-size: 1.1em;
+            }
+
+            .dropdown-item {
+                padding: 12px 18px;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 24px 12px;
+                max-width: 100%;
+                width: 100%;
+                overflow-x: hidden;
+            }
+
+            .logo-text h1 {
+                font-size: 0.9em;
+            }
+
+            .logo-text p {
+                font-size: 0.6em;
+            }
+
+            .search-title h2 {
+                font-size: 1.5em;
+            }
+
+            .search-title p {
+                font-size: 0.9em;
+            }
+
+            .forms-header h2 {
+                font-size: 1.5em;
+            }
+
+            .forms-header p {
+                font-size: 0.9em;
+            }
+
+            .search-input {
+                padding: 11px 14px;
+                font-size: 0.9em;
+            }
+
+            .search-icon {
+                font-size: 1.3em;
+            }
+
+            .form-container {
+                padding: 18px;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+                overflow-x: hidden;
+                margin: 0;
+            }
+
+            .form-btn, .nav-btn {
+                padding: 11px 24px;
+                font-size: 0.85em;
+            }
+
+            .floating-help {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+                bottom: 55px;
+                right: 14px;
+            }
+
+            .dropdown-list {
+                max-width: 95%;
+                max-height: 75vh;
+            }
+
+            .dropdown-header {
+                padding: 14px 16px;
+            }
+
+            .dropdown-header h3 {
+                font-size: 1em;
+            }
+
+            .close-modal {
+                width: 32px;
+                height: 32px;
+                font-size: 18px;
+            }
+
+            .dropdown-item {
+                padding: 11px 14px;
+                gap: 9px;
+            }
+
+            .dropdown-item::before {
+                font-size: 1em;
+            }
+
+            .selected-parcela {
+                font-size: 1em;
+                padding: 14px 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-brand" onclick="scrollToTop(); backToMenu();">
+                <div class="logo-icon">🌾</div>
+                <div class="logo-text">
+                    <h1>AGRICOLE</h1>
+                    <p>Gestión Inteligente</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="container">
+            <!-- SEARCH SECTION -->
+            <div class="search-section" id="searchSection">
+                <div class="search-title">
+                    <h2>Selecciona tu Parcela</h2>
+                    <p>Elige una parcela para comenzar</p>
+                </div>
+                <button class="search-btn" id="searchBtn">
+                    <span class="search-btn-icon">🔍</span>
+                    <span>Buscar Parcela</span>
+                </button>
+                <div class="selected-parcela" id="selectedParcela" style="display: none;"></div>
+            </div>
+
+            <!-- SEARCH MODAL -->
+            <div class="search-modal-overlay" id="searchModalOverlay"></div>
+            <div class="search-modal" id="searchModal">
+                <div class="search-modal-header">
+                    <h3>Buscar Parcela</h3>
+                    <button class="search-modal-close" id="searchModalClose">&times;</button>
+                </div>
+                <div class="search-modal-content">
+                    <input 
+                        type="text" 
+                        class="search-modal-input" 
+                        id="searchModalInput" 
+                        placeholder="Escribe el nombre de la parcela..."
+                        autocomplete="off"
+                    >
+                    <div class="search-modal-list" id="searchModalList"></div>
+                </div>
+            </div>
+
+            <!-- PARCELA HEADER -->
+            <div id="parcelaHeader" class="parcela-header" style="display: none;">
+                <div class="parcela-header-top">
+                    <button class="parcela-back-btn" onclick="backToMenu()" title="Volver">
+                        ← Atrás
+                    </button>
+                    <div class="parcela-info">
+                        <div class="parcela-icon">🌾</div>
+                        <div class="parcela-details">
+                            <h2 id="parcelaName">Parcela</h2>
+                            <p>Gestión de formularios</p>
+                        </div>
+                    </div>
+                    <div class="parcela-spacer"></div>
+                </div>
+            </div>
+
+            <!-- FORMS SECTION -->
+            <div class="forms-section" id="formsSection" style="display: none;">
+                <div class="forms-container">
+                    <!-- CARDS DE FORMULARIOS -->
+                    <div class="forms-grid" id="formsNav"></div>
+
+                    <!-- CONTENEDOR DEL FORMULARIO SELECCIONADO -->
+                    <div class="form-content-wrapper" id="formContentWrapper" style="display: none;">
+                        <div class="form-header-bar">
+                            <h3 id="formTitle">Formulario</h3>
+                            <button class="form-close-btn" onclick="clearFormSelection()">✕</button>
+                        </div>
+                        <div class="form-container">
+                            <div id="formContent"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="forms-footer-nav">
+                    <button class="footer-nav-btn" onclick="changeParcela()">
+                        🔄 Cambiar Parcela
+                    </button>
+                </div>
+            </div>
+
+            <!-- EMPTY STATE -->
+            <div class="empty-state" id="emptyState">
+                <div class="empty-state-icon">📋</div>
+                <h3>Bienvenido a AGRICOLE</h3>
+                <p>Selecciona una parcela para acceder a los formularios disponibles</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p><span class="footer-brand">🌾 AGRICOLE COOPERATIVA</span></p>
+        <p>Gestión Profesional de Parcelas Agrícolas</p>
+    </footer>
+
+    <a href="https://wa.me/573187284464?text=Hola%20AGRICOLE%20COOPERATIVA,%20tengo%20una%20consulta..." class="floating-help" target="_blank" title="Contactar por WhatsApp">
+        💬
+    </a>
+
+    <button class="back-to-top" onclick="scrollToTop()" title="Volver al inicio">
+        ⬆️
+    </button>
+
+    <script>
+        const parcelas = [
+            {
+                id: 1,
+                name: "AGRICOLE BEACH SIDE FARM",
+                forms: [
+                    {
+                        id: 'insumos',
+                        name: 'Insumos & Fertilizantes',
+                        iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'
+                    },
+                    {
+                        id: 'limpieza',
+                        name: 'Limpieza',
+                        iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'
+                    },
+                    {
+                        id: 'cosecha',
+                        name: 'Cosecha & Siembra',
+                        iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'
+                    },
+                    {
+                        id: 'riego',
+                        name: 'Riego',
+                        iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'
+                    },
+                    {
+                        id: 'labores',
+                        name: 'Control de labores de la tierra',
+                        iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'
+                    },
+                    {
+                        id: 'plagas',
+                        name: 'Plagas y Enfermedades',
+                        iframe: null
+                    },
+                    {
+                        id: 'mantenimiento',
+                        name: 'Mantenimiento de Herramientas y Maquinaria',
+                        iframe: null
+                    }
+                ]
+            },
+            { id: 2, name: "VALLE VERDE ORGANIC", forms: [{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'cosecha',name:'Cosecha & Simreb',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
+            { id: 3, name: "TIERRA FÉRTIL CAMPOS", forms: [{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'cosecha',name:'Cosecha & Simreb',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
+            { id: 4, name: "HACIENDA MONTAÑA ALTA", forms: [{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'cosecha',name:'Cosecha & Simreb',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
+            { id: 5, name: "CULTIVOS ARMONÍA", forms: [{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'cosecha',name:'Cosecha & Simreb',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
+            { id: 6, name: "GRANJAS DEL SUR", forms: [{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'cosecha',name:'Cosecha & Simreb',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
+            { id: 7, name: "PLANTACIONES ÉXITO", forms: [{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'cosecha',name:'Cosecha & Simreb',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
+            { id: 8, name: "FINCA NATURALEZA PURA", forms: [{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'cosecha',name:'Cosecha & Simreb',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
+            { id: 9, name: "CAMPOS PRODUCTIVOS", forms: [{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'cosecha',name:'Cosecha & Simreb',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
+            { id: 10, name: "AGRO SOSTENIBLE", forms: [{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'cosecha',name:'Cosecha & Simreb',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
+            { id: 11, name: "VEGA TROPICAL FARMS", forms: [{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'cosecha',name:'Cosecha & Simreb',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]}
+        ];
+
+        let currentParcela = null;
+        let currentForm = null;
+
+        // ELEMENTOS DEL MODAL
+        const searchBtn = document.getElementById('searchBtn');
+        const searchModalOverlay = document.getElementById('searchModalOverlay');
+        const searchModal = document.getElementById('searchModal');
+        const searchModalClose = document.getElementById('searchModalClose');
+        const searchModalInput = document.getElementById('searchModalInput');
+        const searchModalList = document.getElementById('searchModalList');
+        
+        // ELEMENTOS DE LA PÁGINA
+        const formsSection = document.getElementById('formsSection');
+        const emptyState = document.getElementById('emptyState');
+        const selectedParcelaDiv = document.getElementById('selectedParcela');
+        const formsNav = document.getElementById('formsNav');
+        const formContent = document.getElementById('formContent');
+
+        // EVENTO: ABRIR MODAL AL CLICKEAR BOTÓN DE BÚSQUEDA
+        searchBtn.addEventListener('click', () => {
+            openSearchModal();
+        });
+
+        // EVENTO: CERRAR MODAL AL CLICKEAR X
+        searchModalClose.addEventListener('click', () => {
+            closeSearchModal();
+        });
+
+        // EVENTO: CERRAR MODAL AL CLICKEAR EN OVERLAY
+        searchModalOverlay.addEventListener('click', () => {
+            closeSearchModal();
+        });
+
+        // EVENTO: NO CERRAR SI CLICKEA DENTRO DEL MODAL
+        searchModal.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+
+        // EVENTO: FILTRAR MIENTRAS ESCRIBE
+        searchModalInput.addEventListener('input', (e) => {
+            const value = e.target.value.toLowerCase();
+            renderSearchList(value);
+        });
+
+        function openSearchModal() {
+            searchModalOverlay.classList.add('active');
+            searchModal.classList.add('active');
+            searchModalInput.focus();
+            searchModalInput.value = '';
+            renderSearchList('');
+        }
+
+        function closeSearchModal() {
+            searchModalOverlay.classList.remove('active');
+            searchModal.classList.remove('active');
+            searchModalInput.value = '';
+        }
+
+        function renderSearchList(searchValue) {
+            searchModalList.innerHTML = '';
+
+            const filtered = searchValue 
+                ? parcelas.filter(p => p.name.toLowerCase().includes(searchValue))
+                : parcelas;
+
+            if (filtered.length > 0) {
+                filtered.forEach(parcela => {
+                    const item = document.createElement('div');
+                    item.className = 'search-modal-item';
+                    if (currentParcela?.id === parcela.id) {
+                        item.classList.add('selected');
+                    }
+                    item.textContent = parcela.name;
+                    item.onclick = () => selectParcela(parcela);
+                    searchModalList.appendChild(item);
+                });
+            } else {
+                const noResults = document.createElement('div');
+                noResults.style.padding = '60px 28px';
+                noResults.style.textAlign = 'center';
+                noResults.style.color = '#999';
+                noResults.style.fontSize = '1.05em';
+                noResults.style.fontWeight = '500';
+                noResults.innerHTML = '<div style="font-size: 3em; margin-bottom: 16px;">🔍</div>No se encontraron parcelas';
+                searchModalList.appendChild(noResults);
+            }
+        }
+
+        function selectParcela(parcela) {
+            currentParcela = parcela;
+            closeSearchModal();
+            
+            // Mostrar header de parcela
+            const parcelaHeader = document.getElementById('parcelaHeader');
+            document.getElementById('parcelaName').textContent = parcela.name;
+            parcelaHeader.style.display = 'block';
+            
+            // Ocultar estado vacío y mostrar formularios
+            emptyState.style.display = 'none';
+            formsSection.style.display = 'block';
+
+            // Renderizar cards de formularios con iconos descriptivos
+            formsNav.innerHTML = '';
+            const iconMap = {
+                'insumos': '🌱',
+                'limpieza': '🧹',
+                'cosecha': '🌽',
+                'riego': '💦',
+                'labores': '🚜',
+                'plagas': '🌾',
+                'mantenimiento': '🔧'
+            };
+
+            parcela.forms.forEach((form) => {
+                const btn = document.createElement('button');
+                btn.className = 'form-btn';
+                const icon = iconMap[form.id] || '📋';
+                btn.innerHTML = `
+                    <span class="form-btn-icon">${icon}</span>
+                    <span class="form-btn-text">${form.name}</span>
+                `;
+                btn.onclick = () => selectForm(form.id, form.name, btn);
+                formsNav.appendChild(btn);
+            });
+
+            // NO cargar formulario automáticamente - esperar a que el usuario seleccione uno
+            clearFormSelection();
+            
+            // Scroll suave al header de parcela
+            setTimeout(() => {
+                parcelaHeader.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
+
+        function selectForm(formId, formName, buttonElement) {
+            currentForm = formId;
+            const form = currentParcela.forms.find(f => f.id === formId);
+
+            // Actualizar botones activos
+            document.querySelectorAll('.form-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            buttonElement.classList.add('active');
+
+            // Mostrar contenedor del formulario y actualizar título
+            const formContentWrapper = document.getElementById('formContentWrapper');
+            document.getElementById('formTitle').textContent = formName;
+            formContentWrapper.style.display = 'block';
+
+            // Cargar formulario con animación
+            const formContent = document.getElementById('formContent');
+            formContent.innerHTML = '';
+            setTimeout(() => {
+                if (form.iframe) {
+                    formContent.innerHTML = form.iframe;
+                } else {
+                    // Mostrar placeholder para elementos sin formulario
+                    formContent.innerHTML = `
+                        <div style="padding: 40px 20px; text-align: center; background: linear-gradient(135deg, #f5a568 0%, #e8784f 100%); border-radius: 8px; color: white;">
+                            <div style="font-size: 48px; margin-bottom: 15px;">📋</div>
+                            <h3 style="margin: 0 0 10px 0; font-size: 20px;">${formName}</h3>
+                            <p style="margin: 0; font-size: 14px; opacity: 0.9;">Esta sección estará disponible pronto</p>
+                        </div>
+                    `;
+                }
+            }, 100);
+
+            // Scroll suave al formulario
+            setTimeout(() => {
+                formContentWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 200);
+        }
+
+        function clearFormSelection() {
+            const formContentWrapper = document.getElementById('formContentWrapper');
+            formContentWrapper.style.display = 'none';
+            document.getElementById('formContent').innerHTML = '';
+            document.querySelectorAll('.form-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            currentForm = null;
+        }
+
+        function backToMenu() {
+            currentParcela = null;
+            currentForm = null;
+            
+            // Ocultar header de parcela
+            document.getElementById('parcelaHeader').style.display = 'none';
+            
+            // Ocultar formularios y mostrar estado vacío
+            formsSection.style.display = 'none';
+            emptyState.style.display = 'block';
+            
+            // Limpiar contenido
+            clearFormSelection();
+            
+            // Scroll al inicio
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function changeParcela() {
+            // Limpiar la selección anterior
+            clearFormSelection();
+            // Abrir modal de búsqueda
+            openSearchModal();
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
