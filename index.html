@@ -666,7 +666,12 @@
             max-width: 100%;
             width: 100%;
             display: block;
-            overflow: hidden;
+            overflow: hidden !important;
+            -webkit-overflow-scrolling: auto !important;
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            user-select: text;
+            pointer-events: auto;
         }
 
         /* NAVEGACIÓN FOOTER ===== */
@@ -1389,27 +1394,27 @@
                     {
                         id: 'insumos',
                         name: 'Insumos & Fertilizantes',
-                        iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'
+                        iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0" scrolling="no"></iframe>'
                     },
                     {
                         id: 'limpieza',
                         name: 'Limpieza',
-                        iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'
+                        iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0" scrolling="no"></iframe>'
                     },
                     {
                         id: 'cosecha',
                         name: 'Cosecha & Siembra',
-                        iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'
+                        iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0" scrolling="no"></iframe>'
                     },
                     {
                         id: 'riego',
                         name: 'Riego',
-                        iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'
+                        iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0" scrolling="no"></iframe>'
                     },
                     {
                         id: 'labores',
                         name: 'Control de labores de la tierra',
-                        iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'
+                        iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0" scrolling="no"></iframe>'
                     },
                     {
                         id: 'plagas',
@@ -1591,6 +1596,15 @@
             setTimeout(() => {
                 if (form.iframe) {
                     formContent.innerHTML = form.iframe;
+                    // Desabilitar scroll inmediatamente después de inyectar
+                    disableIframeScroll();
+                    // Volver a intentar después de un delay para asegurar que el iframe esté cargado
+                    setTimeout(() => {
+                        disableIframeScroll();
+                    }, 500);
+                    setTimeout(() => {
+                        disableIframeScroll();
+                    }, 1000);
                 } else {
                     // Mostrar placeholder para elementos sin formulario
                     formContent.innerHTML = `
@@ -1606,7 +1620,31 @@
             // Scroll suave al formulario
             setTimeout(() => {
                 formContentWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Desabilitar scroll del iframe en iOS después de cargarlo
+                disableIframeScroll();
             }, 200);
+        }
+
+        function disableIframeScroll() {
+            const iframes = document.querySelectorAll('.form-container iframe');
+            iframes.forEach((iframe) => {
+                // Establecer atributo scrolling="no"
+                iframe.setAttribute('scrolling', 'no');
+                // Establecer estilos CSS adicionales
+                iframe.style.overflow = 'hidden';
+                iframe.style.webkitOverflowScrolling = 'auto';
+                iframe.style.height = 'auto';
+                // Intentar acceder a contentDocument (si es del mismo origen)
+                try {
+                    if (iframe.contentDocument) {
+                        iframe.contentDocument.documentElement.style.overflow = 'hidden';
+                        iframe.contentDocument.body.style.overflow = 'hidden';
+                    }
+                } catch (e) {
+                    // Esto puede fallar en cross-origin iframes (como Google Forms)
+                    // pero está bien, ya que hemos agregado scrolling="no"
+                }
+            });
         }
 
         function clearFormSelection() {
