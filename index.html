@@ -50,7 +50,7 @@
         /* ===== HEADER ===== */
         header {
             background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
-            padding: 10px 20px;
+            padding: 8px 20px;
             box-shadow: 0 4px 16px rgba(199, 92, 44, 0.15);
             position: sticky;
             top: 0;
@@ -110,6 +110,77 @@
             color: rgba(255, 255, 255, 0.8);
             font-size: 0.65em;
             margin: 0;
+            font-weight: 500;
+        }
+
+        /* ===== WEATHER WIDGET ===== */
+        .weather-widget {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            font-size: 0.72em;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .datetime-info {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            opacity: 0.95;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 4px 10px;
+            border-radius: 6px;
+            backdrop-filter: blur(10px);
+        }
+
+        .date-display {
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+        }
+
+        .time-display {
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.25);
+            padding: 2px 8px;
+            border-radius: 5px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            font-family: 'Courier New', monospace;
+            letter-spacing: 0.3px;
+        }
+
+        .weather-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95em;
+            opacity: 0.95;
+            flex-wrap: wrap;
+        }
+
+        .weather-loading {
+            font-size: 0.9em;
+            opacity: 0.75;
+        }
+
+        .weather-temp {
+            font-weight: 700;
+            font-size: 1.05em;
+        }
+
+        .weather-desc {
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+
+        .weather-location {
+            font-size: 0.9em;
+            opacity: 0.85;
             font-weight: 500;
         }
 
@@ -524,17 +595,17 @@
         /* GRID DE CARDS DE FORMULARIOS */
         .forms-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 16px;
-            margin-bottom: 8px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 12px;
             animation: fadeIn 0.4s ease 0.1s both;
         }
 
         .form-btn {
-            padding: 20px;
+            padding: 24px;
             background: white;
             border: 2px solid #f0f0f0;
-            border-radius: 14px;
+            border-radius: 16px;
             cursor: pointer;
             font-weight: 600;
             font-size: 1em;
@@ -545,10 +616,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             text-align: center;
             color: var(--primary-green);
             letter-spacing: 0.3px;
+            min-height: 140px;
+            justify-content: center;
         }
 
         .form-btn::before {
@@ -562,9 +635,9 @@
         }
 
         .form-btn:hover {
-            transform: translateY(-4px);
+            transform: translateY(-6px);
             border-color: var(--accent-green);
-            box-shadow: 0 12px 28px rgba(199, 92, 44, 0.12);
+            box-shadow: 0 16px 32px rgba(199, 92, 44, 0.16);
             color: var(--accent-green);
         }
 
@@ -576,17 +649,18 @@
             background: linear-gradient(135deg, #c75c2c, #e8784f);
             border-color: transparent;
             color: white;
-            box-shadow: 0 14px 36px rgba(199, 92, 44, 0.28);
-            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(199, 92, 44, 0.32);
+            transform: translateY(-6px);
         }
 
         .form-btn-icon {
-            font-size: 1.8em;
+            font-size: 2.2em;
         }
 
         .form-btn-text {
             font-size: 0.95em;
             font-weight: 700;
+            line-height: 1.3;
         }
 
         /* CONTENEDOR DEL FORMULARIO SELECCIONADO */
@@ -746,6 +820,101 @@
 
         /* ===== RESPONSIVE TABLET (768px) ===== */
         @media (max-width: 768px) {
+            header {
+                padding: 8px 16px;
+            }
+
+            .header-content {
+                gap: 12px;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .logo-brand {
+                flex-shrink: 0;
+            }
+
+            .logo-text h1 {
+                font-size: 0.95em;
+            }
+
+            .logo-text p {
+                font-size: 0.65em;
+            }
+
+            .weather-widget {
+                font-size: 0.68em;
+                gap: 0;
+                flex-direction: row;
+                align-items: center;
+                flex: 1;
+                justify-content: flex-end;
+                background: rgba(255, 255, 255, 0.08);
+                padding: 6px 12px;
+                border-radius: 8px;
+                backdrop-filter: blur(8px);
+            }
+
+            .datetime-info {
+                gap: 4px;
+                padding: 0;
+                background: transparent;
+                border-radius: 0;
+                display: flex;
+                align-items: center;
+                border-right: 1px solid rgba(255, 255, 255, 0.2);
+                padding-right: 10px;
+                margin-right: 10px;
+            }
+
+            .date-display {
+                font-size: 0.9em;
+                font-weight: 600;
+            }
+
+            .time-display {
+                padding: 0;
+                font-size: 0.9em;
+                background: transparent;
+                box-shadow: none;
+                font-weight: 700;
+            }
+
+            .weather-info {
+                gap: 8px;
+                flex-direction: row;
+                align-items: center;
+                width: auto;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+
+            .weather-info > div {
+                display: flex !important;
+                align-items: center;
+                gap: 3px !important;
+                padding: 0 !important;
+                font-size: 0.85em !important;
+                width: auto;
+                background: transparent !important;
+                border-radius: 0 !important;
+                white-space: nowrap;
+            }
+
+            .weather-info > div:nth-child(1) {
+                gap: 3px;
+            }
+
+            .weather-info > div:nth-child(2) {
+                border-left: 1px solid rgba(255, 255, 255, 0.2);
+                padding-left: 8px;
+            }
+
+            .weather-info > div:nth-child(3) {
+                border-left: 1px solid rgba(255, 255, 255, 0.2);
+                padding-left: 8px;
+            }
+
             .parcela-header {
                 padding: 14px 16px;
                 margin-bottom: 24px;
@@ -833,6 +1002,115 @@
 
         /* ===== RESPONSIVE MOBILE (480px) ===== */
         @media (max-width: 480px) {
+            header {
+                padding: 8px 14px;
+            }
+
+            .header-content {
+                gap: 0;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .logo-brand {
+                width: 100%;
+                justify-content: flex-start;
+                margin-bottom: 6px;
+            }
+
+            .logo-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 16px;
+            }
+
+            .logo-text h1 {
+                font-size: 0.9em;
+            }
+
+            .logo-text p {
+                font-size: 0.6em;
+            }
+
+            .weather-widget {
+                font-size: 0.65em;
+                gap: 0;
+                width: 100%;
+                flex-direction: column;
+                align-items: flex-start;
+                background: rgba(255, 255, 255, 0.08);
+                padding: 8px 10px;
+                border-radius: 8px;
+                backdrop-filter: blur(8px);
+            }
+
+            .datetime-info {
+                gap: 8px;
+                padding: 0;
+                background: transparent;
+                border-radius: 0;
+                display: flex;
+                align-items: center;
+                width: 100%;
+                margin-bottom: 6px;
+            }
+
+            .date-display {
+                font-size: 0.95em;
+                font-weight: 700;
+                background: rgba(255, 255, 255, 0.15);
+                padding: 4px 8px;
+                border-radius: 4px;
+            }
+
+            .date-display span {
+                display: none;
+            }
+
+            .time-display {
+                padding: 4px 8px;
+                font-size: 0.95em;
+                background: rgba(255, 255, 255, 0.15);
+                border-radius: 4px;
+                font-weight: 700;
+            }
+
+            .weather-info {
+                gap: 0;
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+            }
+
+            .weather-info > div {
+                display: flex !important;
+                align-items: center;
+                gap: 6px !important;
+                padding: 4px 0 !important;
+                font-size: 0.9em !important;
+                width: 100%;
+                background: transparent !important;
+                border-radius: 0 !important;
+                white-space: nowrap;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .weather-info > div:last-child {
+                border-bottom: none;
+            }
+
+            .weather-info > div:nth-child(1) {
+                gap: 5px;
+            }
+
+            .weather-info > div:nth-child(2) {
+                gap: 8px;
+            }
+
+            .weather-info > div span {
+                display: inline;
+            }
+
             .parcela-header {
                 padding: 12px 14px;
                 margin-bottom: 18px;
@@ -1288,6 +1566,17 @@
                     <p>Gestión Inteligente</p>
                 </div>
             </div>
+            
+            <!-- Widget de información climática -->
+            <div class="weather-widget" id="weatherWidget">
+                <div class="datetime-info">
+                    <span class="date-display" id="dateDisplay"></span>
+                    <span class="time-display" id="timeDisplay"></span>
+                </div>
+                <div class="weather-info" id="weatherInfo">
+                    <span class="weather-loading">Cargando...</span>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -1396,16 +1685,6 @@
                 name: "AGRICOLE BEACH SIDE FARM",
                 forms: [
                     {
-                        id: 'insumos',
-                        name: 'Insumos & Fertilizantes',
-                        iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0"></iframe>'
-                    },
-                    {
-                        id: 'limpieza',
-                        name: 'Limpieza',
-                        iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0"></iframe>'
-                    },
-                    {
                         id: 'cosecha',
                         name: 'Cosecha & Siembra',
                         iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0"></iframe>'
@@ -1416,14 +1695,24 @@
                         iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0"></iframe>'
                     },
                     {
-                        id: 'labores',
-                        name: 'Control de labores de la tierra',
-                        iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0"></iframe>'
+                        id: 'insumos',
+                        name: 'Insumos & Fertilizantes',
+                        iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0"></iframe>'
                     },
                     {
                         id: 'plagas',
                         name: 'Plagas y Enfermedades',
                         iframe: null
+                    },
+                    {
+                        id: 'labores',
+                        name: 'Control de labores de la tierra',
+                        iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0"></iframe>'
+                    },
+                    {
+                        id: 'limpieza',
+                        name: 'Limpieza',
+                        iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0"></iframe>'
                     },
                     {
                         id: 'mantenimiento',
@@ -1432,16 +1721,16 @@
                     }
                 ]
             },
-            { id: 2, name: "VALLE VERDE ORGANIC", forms: [{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'cosecha',name:'Cosecha & Simreb',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
-            { id: 3, name: "TIERRA FÉRTIL CAMPOS", forms: [{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'cosecha',name:'Cosecha & Simreb',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
-            { id: 4, name: "HACIENDA MONTAÑA ALTA", forms: [{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'cosecha',name:'Cosecha & Simreb',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
-            { id: 5, name: "CULTIVOS ARMONÍA", forms: [{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'cosecha',name:'Cosecha & Simreb',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
-            { id: 6, name: "GRANJAS DEL SUR", forms: [{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'cosecha',name:'Cosecha & Simreb',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
-            { id: 7, name: "PLANTACIONES ÉXITO", forms: [{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'cosecha',name:'Cosecha & Simreb',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
-            { id: 8, name: "FINCA NATURALEZA PURA", forms: [{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'cosecha',name:'Cosecha & Simreb',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
-            { id: 9, name: "CAMPOS PRODUCTIVOS", forms: [{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'cosecha',name:'Cosecha & Simreb',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
-            { id: 10, name: "AGRO SOSTENIBLE", forms: [{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'cosecha',name:'Cosecha & Simreb',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
-            { id: 11, name: "VEGA TROPICAL FARMS", forms: [{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'cosecha',name:'Cosecha & Simreb',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]}
+            { id: 2, name: "VALLE VERDE ORGANIC", forms: [{id:'cosecha',name:'Cosecha & Siembra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
+            { id: 3, name: "TIERRA FÉRTIL CAMPOS", forms: [{id:'cosecha',name:'Cosecha & Siembra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
+            { id: 4, name: "HACIENDA MONTAÑA ALTA", forms: [{id:'cosecha',name:'Cosecha & Siembra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
+            { id: 5, name: "CULTIVOS ARMONÍA", forms: [{id:'cosecha',name:'Cosecha & Siembra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
+            { id: 6, name: "GRANJAS DEL SUR", forms: [{id:'cosecha',name:'Cosecha & Siembra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
+            { id: 7, name: "PLANTACIONES ÉXITO", forms: [{id:'cosecha',name:'Cosecha & Siembra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
+            { id: 8, name: "FINCA NATURALEZA PURA", forms: [{id:'cosecha',name:'Cosecha & Siembra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
+            { id: 9, name: "CAMPOS PRODUCTIVOS", forms: [{id:'cosecha',name:'Cosecha & Siembra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
+            { id: 10, name: "AGRO SOSTENIBLE", forms: [{id:'cosecha',name:'Cosecha & Siembra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]},
+            { id: 11, name: "VEGA TROPICAL FARMS", forms: [{id:'cosecha',name:'Cosecha & Siembra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdUeFJVX4yCMC4CewafhSFDsW0Zohxu-ClSXexhPTeL0un7SA/viewform?embedded=true" width="100%" height="1306" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'riego',name:'Riego',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx92MMgsS_cOz7owI1uy77oL8DYNqWv5hJmXEUVyOl6vc0jg/viewform?embedded=true" width="100%" height="1851" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'insumos',name:'Insumos & Fertilizantes',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="2500" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'plagas',name:'Plagas y Enfermedades',iframe:null},{id:'labores',name:'Control de labores de la tierra',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="2340" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'limpieza',name:'Limpieza',iframe:'<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHS4zHl80-KO5xVIKikIB4UGp3xQfECzgammdLlF8YpPe8og/viewform?embedded=true" width="100%" height="1321" frameborder="0" marginheight="0" marginwidth="0"></iframe>'},{id:'mantenimiento',name:'Mantenimiento de Herramientas y Maquinaria',iframe:null}]}
         ];
 
         let currentParcela = null;
@@ -1712,6 +2001,227 @@
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        // ===== FUNCIONES DE FECHA, HORA Y CLIMA =====
+        function updateDateTime() {
+            const now = new Date();
+            
+            // Formato de fecha con etiquetas DD/MM/YYYY
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear();
+            const dateStr = `<span style="opacity: 0.7; font-size: 0.85em;">DD/MM/YYYY:</span> ${day}/${month}/${year}`;
+            
+            // Formato de hora 12 horas con AM/PM
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // 0 se convierte en 12
+            const timeStr = `${hours}:${minutes} ${ampm}`;
+            
+            document.getElementById('dateDisplay').innerHTML = dateStr;
+            document.getElementById('timeDisplay').textContent = timeStr;
+        }
+
+        async function getWeatherData(lat, lon) {
+            try {
+                // Obtener nombre real de la ubicación usando Nominatim (OpenStreetMap)
+                const geoResponse = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=10&addressdetails=1`);
+                const geoData = await geoResponse.json();
+                
+                let locationName = 'Ubicación actual';
+                if (geoData.address) {
+                    // Intentar obtener ciudad, pueblo o municipio
+                    const city = geoData.address.city || 
+                                geoData.address.town || 
+                                geoData.address.municipality || 
+                                geoData.address.village ||
+                                geoData.address.county;
+                    
+                    const state = geoData.address.state || geoData.address.region;
+                    const country = geoData.address.country;
+                    
+                    if (city) {
+                        locationName = city;
+                        if (state && state !== city) {
+                            locationName += `, ${state}`;
+                        }
+                    } else if (state) {
+                        locationName = state;
+                    }
+                    
+                    // Agregar país si es útil
+                    if (country && !locationName.includes(country)) {
+                        locationName += ` (${country})`;
+                    }
+                }
+                
+                console.log('Ubicación detectada:', locationName, 'Coordenadas:', lat, lon);
+                
+                // API de Open-Meteo con más datos relevantes para agricultura
+                const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,weather_code&hourly=uv_index&timezone=auto`;
+                const response = await fetch(weatherUrl);
+                const data = await response.json();
+                
+                if (data.current) {
+                    const temp = Math.round(data.current.temperature_2m);
+                    const humidity = Math.round(data.current.relative_humidity_2m);
+                    const windSpeed = Math.round(data.current.wind_speed_10m);
+                    const precipitation = data.current.precipitation || 0;
+                    const weatherCode = data.current.weather_code;
+                    const weatherDesc = getWeatherDescription(weatherCode);
+                    const weatherIcon = getWeatherIcon(weatherCode);
+                    
+                    // Obtener índice UV actual
+                    const currentHour = new Date().getHours();
+                    const uvIndex = data.hourly.uv_index[currentHour] || 0;
+                    const uvLevel = getUVLevel(uvIndex);
+                    
+                    // Construir HTML compacto y bien organizado
+                    let weatherHTML = `
+                        <div style="display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.12); padding: 2px 6px; border-radius: 6px;">
+                            <span style="font-size: 1.1em;">${weatherIcon}</span>
+                            <span style="font-weight: 700; font-size: 1em;">${temp}°C</span>
+                            <span style="font-weight: 500; font-size: 0.88em; text-transform: capitalize;">${weatherDesc}</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 5px; font-size: 0.85em; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 5px;">
+                            <span title="Humedad">💧 ${humidity}%</span>
+                            <span title="Viento">💨 ${windSpeed}km</span>
+                    `;
+                    
+                    if (uvIndex > 0) {
+                        weatherHTML += `<span title="Índice UV: ${uvLevel}" style="font-weight: 600;">☀️ UV${Math.round(uvIndex)}</span>`;
+                    }
+                    
+                    if (precipitation > 0) {
+                        weatherHTML += `<span title="Precipitación" style="font-weight: 600;">🌧️ ${precipitation}mm</span>`;
+                    }
+                    
+                    weatherHTML += `</div>
+                        <div style="font-size: 0.82em; opacity: 0.85; font-weight: 500; background: rgba(255,255,255,0.08); padding: 2px 6px; border-radius: 5px;" title="Lat: ${lat.toFixed(4)}, Lon: ${lon.toFixed(4)}">
+                            📍 ${locationName}
+                        </div>
+                    `;
+                    
+                    document.getElementById('weatherInfo').innerHTML = weatherHTML;
+                }
+            } catch (error) {
+                console.error('Error obteniendo clima:', error);
+                document.getElementById('weatherInfo').innerHTML = `
+                    <span style="opacity: 0.6; font-size: 0.9em;">Obteniendo datos del clima...</span>
+                `;
+            }
+        }
+
+        function getUVLevel(uv) {
+            if (uv < 3) return '(Bajo)';
+            if (uv < 6) return '(Moderado)';
+            if (uv < 8) return '(Alto)';
+            if (uv < 11) return '(Muy alto)';
+            return '(Extremo)';
+        }
+
+        function getWeatherDescription(code) {
+            const descriptions = {
+                0: 'Despejado', 1: 'Mayormente despejado', 2: 'Parcialmente nublado', 3: 'Nublado',
+                45: 'Niebla', 48: 'Niebla helada', 51: 'Llovizna ligera', 53: 'Llovizna moderada',
+                55: 'Llovizna fuerte', 61: 'Lluvia ligera', 63: 'Lluvia moderada', 65: 'Lluvia fuerte',
+                71: 'Nieve ligera', 73: 'Nieve moderada', 75: 'Nieve fuerte', 80: 'Chubascos ligeros',
+                81: 'Chubascos moderados', 82: 'Chubascos fuertes', 95: 'Tormenta', 96: 'Tormenta con granizo'
+            };
+            return descriptions[code] || 'Variable';
+        }
+
+        function getWeatherIcon(code) {
+            if (code === 0 || code === 1) return '☀️';
+            if (code === 2 || code === 3) return '⛅';
+            if (code >= 45 && code <= 48) return '🌫️';
+            if (code >= 51 && code <= 65) return '🌧️';
+            if (code >= 71 && code <= 75) return '❄️';
+            if (code >= 80 && code <= 82) return '🌦️';
+            if (code >= 95) return '⛈️';
+            return '🌤️';
+        }
+
+        function initWeatherWidget() {
+            // Actualizar fecha y hora cada segundo
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+            
+            // Mostrar mensaje de carga
+            document.getElementById('weatherInfo').innerHTML = `
+                <span style="opacity: 0.7; font-size: 0.9em;">📡 Detectando ubicación...</span>
+            `;
+            
+            // Intentar obtener ubicación precisa del usuario
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        // Usar las coordenadas exactas del dispositivo
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        
+                        console.log(`Ubicación detectada: ${lat}, ${lon}`);
+                        getWeatherData(lat, lon);
+                    },
+                    (error) => {
+                        console.warn('No se pudo obtener ubicación:', error.message);
+                        
+                        // Intentar obtener ubicación aproximada por IP usando un servicio gratuito
+                        fetch('https://ipapi.co/json/')
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.latitude && data.longitude) {
+                                    console.log(`Ubicación por IP: ${data.city}, ${data.region}`);
+                                    getWeatherData(data.latitude, data.longitude);
+                                } else {
+                                    // Si falla todo, usar ubicación predeterminada
+                                    useFallbackLocation();
+                                }
+                            })
+                            .catch(() => {
+                                useFallbackLocation();
+                            });
+                    },
+                    {
+                        enableHighAccuracy: true, // Solicitar la ubicación más precisa posible
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                // Si no hay soporte de geolocalización, intentar por IP
+                fetch('https://ipapi.co/json/')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.latitude && data.longitude) {
+                            getWeatherData(data.latitude, data.longitude);
+                        } else {
+                            useFallbackLocation();
+                        }
+                    })
+                    .catch(() => {
+                        useFallbackLocation();
+                    });
+            }
+        }
+
+        function useFallbackLocation() {
+            // Mostrar selector de ubicación predeterminada
+            document.getElementById('weatherInfo').innerHTML = `
+                <div style="display: flex; flex-direction: column; gap: 4px; align-items: flex-end;">
+                    <span style="font-size: 0.85em; opacity: 0.8;">Selecciona ubicación:</span>
+                    <div style="display: flex; gap: 6px;">
+                        <button onclick="getWeatherData(24.1422, -110.3130)" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.8em;">📍 La Paz, BCS</button>
+                        <button onclick="getWeatherData(4.7110, -74.0721)" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.8em;">📍 Bogotá, COL</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Iniciar widget cuando cargue la página
+        document.addEventListener('DOMContentLoaded', initWeatherWidget);
     </script>
 </body>
 </html>
