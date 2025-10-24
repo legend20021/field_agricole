@@ -2407,7 +2407,7 @@
             
             // Scroll suave al header de parcela
             setTimeout(() => {
-                parcelaHeader.scrollIntoView({ behavior: 'smooth' });
+                scrollWithOffset(parcelaHeader);
             }, 100);
         }
 
@@ -2450,10 +2450,7 @@
             
             // Scroll automático suave al formulario
             setTimeout(() => {
-                const formContainer = document.querySelector('.form-container');
-                if (formContainer) {
-                    formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+                scrollWithOffset(formContentWrapper);
             }, 200);
         }
 
@@ -2543,6 +2540,16 @@
 
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function scrollWithOffset(element, extraSpace = 16) {
+            if (!element) {
+                return;
+            }
+            const rootStyles = getComputedStyle(document.documentElement);
+            const offsetValue = parseInt(rootStyles.getPropertyValue('--header-offset') || '0', 10) || 0;
+            const targetY = element.getBoundingClientRect().top + window.scrollY - offsetValue - extraSpace;
+            window.scrollTo({ top: Math.max(targetY, 0), behavior: 'smooth' });
         }
 
         // ===== FUNCIONES DE FECHA, HORA Y CLIMA =====
