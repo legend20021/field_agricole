@@ -22,6 +22,7 @@
             --border-light: #e0e0e0;
             --success-color: #f97316;
             --warning-color: #ff9800;
+            --header-offset: 72px;
         }
 
         html, body {
@@ -45,7 +46,7 @@
             overflow-y: auto;
             overflow-x: hidden;
             padding-bottom: 70px;
-            margin-top: 55px;
+            padding-top: var(--header-offset);
         }
 
         /* ===== HEADER ===== */
@@ -825,6 +826,9 @@
 
         /* ===== RESPONSIVE TABLET (768px) ===== */
         @media (max-width: 768px) {
+            :root {
+                --header-offset: 120px;
+            }
             header {
                 padding: 8px 16px;
             }
@@ -1008,6 +1012,9 @@
 
         /* ===== RESPONSIVE MOBILE (480px) ===== */
         @media (max-width: 480px) {
+            :root {
+                --header-offset: 190px;
+            }
             header {
                 padding: 8px 14px;
             }
@@ -1861,12 +1868,12 @@
             }
 
             .expanded-weather-content {
-                padding: 14px 14px;
+                padding: 12px 10px;
             }
 
             .expanded-weather-content h2 {
                 font-size: 18px;
-                margin-bottom: 12px;
+                margin-bottom: 10px;
             }
 
             .weather-main-section {
@@ -1918,20 +1925,20 @@
             }
 
             .weather-section-title {
-                font-size: 12px;
-                margin-bottom: 8px;
-                padding-bottom: 4px;
+                font-size: 11px;
+                margin-bottom: 6px;
+                padding-bottom: 3px;
             }
 
             .hourly-forecast {
-                grid-template-columns: repeat(8, 1fr);
-                gap: 5px;
+                grid-template-columns: repeat(auto-fit, minmax(45px, 1fr));
+                gap: 3px;
                 padding-bottom: 0px;
             }
 
             .hourly-item {
-                padding: 10px 5px;
-                font-size: 11px;
+                padding: 6px 2px;
+                font-size: 10px;
             }
 
             .daily-forecast {
@@ -2002,47 +2009,47 @@
             }
 
             .hourly-time {
-                font-size: 9px;
-                margin-bottom: 2px;
+                font-size: 8px;
+                margin-bottom: 1px;
             }
 
             .hourly-icon {
-                font-size: 16px;
-                margin-bottom: 1px;
+                font-size: 14px;
+                margin-bottom: 0px;
             }
 
             .hourly-temp {
-                font-size: 10px;
-                margin-bottom: 1px;
+                font-size: 9px;
+                margin-bottom: 0px;
             }
 
             .hourly-precip {
-                font-size: 8px;
+                font-size: 7px;
             }
 
             .daily-forecast {
                 grid-template-columns: repeat(7, 1fr);
-                gap: 4px;
+                gap: 3px;
                 margin-bottom: 0px;
             }
 
             .daily-item {
-                padding: 6px 3px;
+                padding: 5px 2px;
             }
 
             .daily-day {
-                font-size: 8px;
-                margin-bottom: 2px;
+                font-size: 7px;
+                margin-bottom: 1px;
             }
 
             .daily-icon {
-                font-size: 14px;
-                margin-bottom: 2px;
+                font-size: 12px;
+                margin-bottom: 1px;
             }
 
             .daily-temp {
-                font-size: 9px;
-                margin-bottom: 1px;
+                font-size: 8px;
+                margin-bottom: 0px;
             }
 
             .daily-minmax {
