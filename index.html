@@ -15,13 +15,10 @@
             --primary-green: #c75c2c;
             --accent-green: #e8784f;
             --light-green: #f5a568;
-            --dark-bg: #0f1419;
-            --card-bg: #ffffff;
             --text-primary: #1a1a1a;
             --text-secondary: #5a5a5a;
             --border-light: #e0e0e0;
             --success-color: #f97316;
-            --warning-color: #ff9800;
             --header-offset: 28px;
         }
 
@@ -48,22 +45,6 @@
             padding-bottom: 70px;
             padding-top: var(--header-offset);
         }
-
-        /* ===== HEADER (estilos viejos - ahora usa .header-sheet) ===== */
-        /* header {
-            background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
-            padding: 8px 20px;
-            box-shadow: 0 4px 16px rgba(199, 92, 44, 0.15);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            animation: slideDown 0.4s ease;
-            border-bottom: 1px solid rgba(245, 165, 104, 0.15);
-            width: 100vw;
-            margin-left: calc(-50vw + 50%);
-        } */
 
         .header-content {
             max-width: 1400px;
@@ -174,22 +155,6 @@
             opacity: 0.75;
         }
 
-        .weather-temp {
-            font-weight: 700;
-            font-size: 1.05em;
-        }
-
-        .weather-desc {
-            font-weight: 500;
-            text-transform: capitalize;
-        }
-
-        .weather-location {
-            font-size: 0.9em;
-            opacity: 0.85;
-            font-weight: 500;
-        }
-
         /* ===== COLLAPSIBLE HEADER ===== */
         .header-overlay {
             position: fixed;
@@ -264,6 +229,21 @@
 
         .header-handle-area:active {
             cursor: grabbing;
+        }
+
+        /* Mini weather chip for collapsed header on mobile */
+        .header-mini-weather {
+            display: none;
+            color: #fff;
+            font-weight: 600;
+            opacity: 0.9;
+            margin-left: 8px;
+            font-size: 0.85em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            align-items: center;
+            gap: 6px;
         }
 
         .header-handle {
@@ -885,52 +865,11 @@
             transform: translateY(0);
         }
 
-        /* ANIMACIONES ===== */
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
         /* ===== RESPONSIVE TABLET (768px) ===== */
         @media (max-width: 768px) {
             :root {
                 --header-offset: 120px;
             }
-            /* header {
-                padding: 8px 16px;
-            }
-
-            .header-content {
-                gap: 10px;
-                justify-content: space-between;
-                align-items: center;
-            } */
 
             .logo-brand {
                 flex-shrink: 0;
@@ -1106,22 +1045,13 @@
         /* ===== RESPONSIVE MOBILE (480px) ===== */
         @media (max-width: 480px) {
             :root {
-                --header-offset: 190px;
+                --header-offset: 150px;
             }
-            /* header {
-                padding: 8px 14px;
-            }
-
-            .header-content {
-                gap: 0;
-                flex-direction: column;
-                align-items: flex-start;
-            } */
 
             .logo-brand {
                 width: 100%;
                 justify-content: flex-start;
-                margin-bottom: 6px;
+                margin-bottom: 4px;
             }
 
             .logo-icon {
@@ -1139,13 +1069,13 @@
             }
 
             .weather-widget {
-                font-size: 0.65em;
+                font-size: 0.62em;
                 gap: 0;
                 width: 100%;
                 flex-direction: column;
                 align-items: flex-start;
                 background: rgba(255, 255, 255, 0.12);
-                padding: 10px;
+                padding: 6px 8px;
                 border-radius: 8px;
                 backdrop-filter: blur(10px);
                 border: 1px solid rgba(255, 255, 255, 0.15);
@@ -1159,12 +1089,12 @@
                 display: flex;
                 align-items: center;
                 width: 100%;
-                margin-bottom: 8px;
+                margin-bottom: 6px;
                 flex-wrap: wrap;
             }
 
             .date-display {
-                font-size: 0.95em;
+                font-size: 0.9em;
                 font-weight: 700;
                 background: rgba(255, 255, 255, 0.18);
                 padding: 4px 8px;
@@ -1178,7 +1108,7 @@
 
             .time-display {
                 padding: 4px 8px;
-                font-size: 0.95em;
+                font-size: 0.9em;
                 background: rgba(255, 255, 255, 0.18);
                 border-radius: 5px;
                 font-weight: 700;
@@ -1186,7 +1116,7 @@
             }
 
             .location-display {
-                font-size: 0.88em;
+                font-size: 0.84em;
                 font-weight: 500;
                 background: rgba(255, 255, 255, 0.15);
                 padding: 4px 8px;
@@ -1210,12 +1140,12 @@
                 display: flex !important;
                 align-items: center;
                 gap: 2px !important;
-                padding: 4px 0 !important;
-                font-size: 0.81em !important;
+                padding: 2px 0 !important;
+                font-size: 0.78em !important;
                 width: 100%;
                 background: transparent !important;
                 border-radius: 0 !important;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
                 flex-wrap: wrap;
             }
 
@@ -1689,10 +1619,22 @@
                 transform: translateY(calc(-100% + 24px));
             }
             .header-handle-area {
-                padding: 6px 0 5px 0;
+                padding: 4px 0 4px 0;
             }
             .header-expanded-content {
-                padding: 8px 16px;
+                padding: 6px 14px;
+            }
+            .header-content {
+                gap: 12px;
+            }
+
+            /* When header is collapsed on mobile, show a compact weather chip in the handle bar */
+            .header-sheet.collapsed .header-handle-area {
+                justify-content: space-between;
+                padding: 6px 12px;
+            }
+            .header-sheet.collapsed .header-mini-weather {
+                display: inline-flex;
             }
         }
 
@@ -1921,10 +1863,6 @@
             .insumos-table td {
                 padding: 8px 10px;
             }
-        }
-
-        .back-to-top {
-            display: none !important;
         }
 
         /* ===== ANIMATIONS ===== */
@@ -2639,7 +2577,7 @@
         <header class="header-sheet" id="headerSheet">
             <div class="header-expanded-content">
                 <div class="header-content">
-                    <div class="logo-brand" onclick="scrollToTop(); backToMenu();">
+                    <div class="logo-brand" onclick="goHomeAndCleanUI()">
                         <div class="logo-icon">🌾</div>
                         <div class="logo-text">
                             <h1>AGRICOLE</h1>
@@ -2662,6 +2600,7 @@
             </div>
             <div class="header-handle-area" id="headerHandleArea">
                 <div class="header-handle"></div>
+                <div class="header-mini-weather" id="headerMiniWeather" aria-hidden="true"></div>
             </div>
         </header>
     </div>
@@ -2808,10 +2747,6 @@
             </div>
         </div>
     </div>
-
-    <button class="back-to-top" onclick="scrollToTop()" title="Volver al inicio">
-        ⬆️
-    </button>
 
     <script>
         const parcelas = [
@@ -3176,6 +3111,36 @@
             window.scrollTo({ top: Math.max(targetY, 0), behavior: 'smooth' });
         }
 
+        // Ir al inicio, limpiar blur/overlays y guardar el estado del banner/footers
+        function goHomeAndCleanUI() {
+            // Ir al inicio y volver al menú principal
+            scrollToTop();
+            backToMenu();
+
+            // Colapsar header si está abierto (esto guarda el estado)
+            if (typeof window.closeHeader === 'function') {
+                window.closeHeader();
+            }
+            // Colapsar footer si está abierto (esto guarda el estado)
+            if (typeof window.closeFooter === 'function') {
+                window.closeFooter();
+            }
+
+            // Limpiar overlays/blurs explícitamente
+            const hOverlay = document.getElementById('headerOverlay');
+            if (hOverlay) {
+                hOverlay.classList.remove('active');
+                hOverlay.style.opacity = '';
+                hOverlay.style.pointerEvents = '';
+            }
+            const fOverlay = document.getElementById('footerOverlay');
+            if (fOverlay) {
+                fOverlay.classList.remove('visible');
+                fOverlay.style.opacity = '';
+                fOverlay.style.pointerEvents = '';
+            }
+        }
+
         // ===== FUNCIONES DE FECHA, HORA Y CLIMA =====
         function updateDateTime() {
             const now = new Date();
@@ -3320,6 +3285,12 @@
                 
                 document.getElementById('weatherInfo').innerHTML = weatherHTML;
                 makeWeatherClickable();
+
+                // Actualizar mini weather del handle (para móvil colapsado)
+                const mini = document.getElementById('headerMiniWeather');
+                if (mini) {
+                    mini.innerHTML = `<span style="font-size:1.05em">${weatherIcon}</span><span>${temp}°C</span><span style="text-transform:capitalize; opacity:.9">${weatherDesc}</span>`;
+                }
                 
                 // Actualizar footer weather widget
                 updateFooterWeather(weatherData, locationName, temp, humidity, windSpeed, weatherIcon, weatherDesc);
@@ -3400,6 +3371,9 @@
             document.getElementById('weatherInfo').innerHTML = `
                 <span style="opacity: 0.7; font-size: 0.9em;">📡 Detectando ubicación...</span>
             `;
+            // Mini weather inicial en estado de carga
+            const miniInit = document.getElementById('headerMiniWeather');
+            if (miniInit) miniInit.textContent = 'Clima…';
             
             // Intentar obtener ubicación precisa del usuario
             if (navigator.geolocation) {
@@ -3465,6 +3439,8 @@
                     </div>
                 </div>
             `;
+            const mini = document.getElementById('headerMiniWeather');
+            if (mini) mini.textContent = 'Selecciona ubicación…';
         }
 
         // Variables globales para almacenar datos del clima actual
@@ -3478,6 +3454,17 @@
             if (weatherWidget) {
                 weatherWidget.style.cursor = 'pointer';
                 weatherWidget.addEventListener('click', () => {
+                    if (currentWeatherData && currentLocation) {
+                        showExpandedWeather();
+                    }
+                });
+            }
+
+            // Habilitar apertura desde el mini chip del header en responsive
+            const miniChip = document.getElementById('headerMiniWeather');
+            if (miniChip) {
+                miniChip.style.cursor = 'pointer';
+                miniChip.addEventListener('click', () => {
                     if (currentWeatherData && currentLocation) {
                         showExpandedWeather();
                     }
