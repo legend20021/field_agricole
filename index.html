@@ -3165,74 +3165,79 @@
 
         async function getWeatherData(lat, lon) {
             try {
-                // API key gratuita de WeatherAPI (puedes registrarte en weatherapi.com)
-                // Para desarrollo, usamos Open-Meteo como fallback
-                const apiKey = 'e95ee0aa19e24502a0d170904242310'; // Demo key
-                
-                // Intentar con WeatherAPI primero
+                // Fuente confiable: Open‑Meteo como proveedor principal (gratuito, sin API key)
+                // Manteniendo la misma estructura de datos consumida por la UI
                 let weatherData = null;
                 let locationName = 'Ubicación actual';
-                
+
+                // Reverse geocoding con Open‑Meteo Geocoding API (en español)
                 try {
-                    const weatherResponse = await fetch(`https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${lat},${lon}&aqi=yes&lang=es`);
-                    if (weatherResponse.ok) {
-                        weatherData = await weatherResponse.json();
-                        locationName = `${weatherData.location.name}, ${weatherData.location.region}`;
+                    const geoResponse = await fetch(`https://geocoding-api.open-meteo.com/v1/reverse?latitude=${lat}&longitude=${lon}&language=es`);
+                    const geoJson = await geoResponse.json();
+                    if (geoJson && geoJson.results && geoJson.results.length > 0) {
+                        const r = geoJson.results[0];
+                        const admin = r.admin1 || r.admin2 || '';
+                        locationName = r.name + (admin && admin !== r.name ? `, ${admin}` : '');
                     }
-                } catch (e) {
-                    console.log('WeatherAPI no disponible, usando fallback...');
+                } catch (_) {
+                    // si falla, mantenemos "Ubicación actual"
                 }
-                
-                // Si WeatherAPI falla, usar Open-Meteo con Nominatim
-                if (!weatherData) {
-                    const geoResponse = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=10&addressdetails=1`);
-                    const geoData = await geoResponse.json();
-                    
-                    if (geoData.address) {
-                        const city = geoData.address.city || 
-                                    geoData.address.town || 
-                                    geoData.address.municipality || 
-                                    geoData.address.village ||
-                                    geoData.address.county;
-                        
-                        const state = geoData.address.state || geoData.address.region;
-                        
-                        if (city) {
-                            locationName = city;
-                            if (state && state !== city) {
-                                locationName += `, ${state}`;
-                            }
-                        } else if (state) {
-                            locationName = state;
-                        }
-                    }
-                    
-                    // Usar Open-Meteo
-                    const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,weather_code&hourly=uv_index&daily=uv_index_max&timezone=auto`;
-                    const response = await fetch(weatherUrl);
-                    const data = await response.json();
-                    
-                    // Obtener UV actual desde serie horaria (hora local)
-                    const hourIndex = new Date().getHours();
-                    const currentUV = (data.hourly && data.hourly.uv_index) ? (Math.round(data.hourly.uv_index[hourIndex] || 0)) : 0;
-                    
-                    weatherData = {
-                        current: {
-                            temp_c: data.current.temperature_2m,
-                            humidity: data.current.relative_humidity_2m,
-                            wind_kph: data.current.wind_speed_10m,
-                            precip_mm: data.current.precipitation,
-                            condition: {
-                                text: getWeatherDescription(data.current.weather_code),
-                                code: data.current.weather_code
-                            },
-                            uv: currentUV
+
+                // Datos meteorológicos actuales y UV con unidades adecuadas
+                const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
+                    `&current=temperature_2m,relative_humidity_2m,precipitation,rain,wind_speed_10m,weather_code,uv_index,is_day` +
+                    `&hourly=temperature_2m,weather_code,is_day,uv_index,precipitation,precipitation_probability,rain` +
+                    `&daily=weather_code,temperature_2m_max,temperature_2m_min,uv_index_max,sunrise,sunset` +
+                    `&windspeed_unit=kmh&precipitation_unit=mm&timezone=auto`;
+                const response = await fetch(weatherUrl);
+                const data = await response.json();
+
+                // UV actual: usar current.uv_index si está; si no, tomar de la hora local en hourly
+                const hourIndex = new Date().getHours();
+                const currentUV = (data.current && (data.current.uv_index ?? data.current.uv_index === 0))
+                    ? Math.round(data.current.uv_index || 0)
+                    : ((data.hourly && data.hourly.uv_index)
+                        ? Math.round(data.hourly.uv_index[hourIndex] || 0)
+                        : 0);
+
+                weatherData = {
+                    current: {
+                        temp_c: data.current?.temperature_2m ?? 0,
+                        humidity: data.current?.relative_humidity_2m ?? 0,
+                        wind_kph: data.current?.wind_speed_10m ?? 0,
+                        precip_mm: data.current?.precipitation ?? 0,
+                        condition: {
+                            text: getWeatherDescription(data.current?.weather_code ?? 0),
+                            code: data.current?.weather_code ?? 0
                         },
-                        hourly: data.hourly,
-                        daily: data.daily,
-                        location: { name: locationName }
-                    };
+                        uv: currentUV,
+                        is_day: (data.current?.is_day ?? 1)
+                    },
+                    hourly: data.hourly || {},
+                    daily: data.daily || {},
+                    location: { name: locationName }
+                };
+
+                // Calcular precipitación más representativa: actual, o última hora (o lluvia) si la actual es 0
+                const hourIndexSafe = (() => {
+                    try { return new Date().getHours(); } catch(_) { return 0; }
+                })();
+                const currentPrecip = Number(data.current?.precipitation ?? 0);
+                const currentRain = Number(data.current?.rain ?? 0);
+                const hourlyPrecip = Number((data.hourly?.precipitation?.[hourIndexSafe]) ?? 0);
+                const hourlyRain = Number((data.hourly?.rain?.[hourIndexSafe]) ?? 0);
+                const prob = Number((data.hourly?.precipitation_probability?.[hourIndexSafe]) ?? 0);
+                let precipNow = currentPrecip;
+                if (!precipNow || precipNow === 0) {
+                    precipNow = hourlyPrecip || currentRain || hourlyRain || 0;
+                    // Si hay código de lluvia y alta probabilidad, asegura un valor mínimo simbólico
+                    const code = weatherData.current.condition.code || 0;
+                    const looksLikeRain = (code >= 51 && code <= 67) || (code >= 80 && code <= 82) || (code >= 95);
+                    if (precipNow === 0 && looksLikeRain && prob >= 60) {
+                        precipNow = 0.1; // mm mínimo indicativo
+                    }
                 }
+                weatherData.current.precip_mm = Number(precipNow.toFixed(2));
                 
                 // Crear versión abreviada de la ubicación
                 let abbreviatedLocation = locationName;
@@ -3262,7 +3267,12 @@
                 const windSpeed = Math.round(weatherData.current.wind_kph);
                 const precipitation = weatherData.current.precip_mm || 0;
                 const weatherDesc = weatherData.current.condition.text;
-                const weatherIcon = getWeatherIcon(weatherData.current.condition.code);
+                const weatherIcon = getWeatherIconAdvanced(
+                    weatherData.current.condition.code,
+                    weatherData.current.is_day,
+                    windSpeed,
+                    precipitation
+                );
                 const uvIndex = Math.round(weatherData.current.uv || 0);
                 const uvLevel = getUVLevel(uvIndex);
                 
@@ -3278,7 +3288,7 @@
                         <span style="opacity: 0.4;">•</span>
                         <span title="Índice UV: ${uvLevel}" style="font-weight: 600;">☀️${uvIndex} UV</span>
                         <span style="opacity: 0.4;">•</span>
-                        <span title="Precipitación instantánea" style="font-weight: 600;">🌧️${precipitation.toFixed(2)}mm</span>
+                        <span title="Precipitación (últ. hora)" style="font-weight: 600;">🌧️${precipitation.toFixed(2)}mm</span>
                         <span style="opacity: 0.6; margin-left: 4px; font-size: 0.8em;">[Click para expandir]</span>
                     </div>
                 `;
@@ -3323,6 +3333,7 @@
         }
 
         function getWeatherIcon(code) {
+            // Fallback simple (mantener compatibilidad si faltan datos)
             if (code === 0 || code === 1) return '☀️';
             if (code === 2 || code === 3) return '⛅';
             if (code >= 45 && code <= 48) return '🌫️';
@@ -3331,6 +3342,43 @@
             if (code >= 80 && code <= 82) return '🌦️';
             if (code >= 95) return '⛈️';
             return '🌤️';
+        }
+
+        function getWeatherIconAdvanced(code, isDay, windKph = 0, precipMm = 0) {
+            // Mapea códigos WMO + contexto día/noche y resalta viento si es fuerte
+            const day = (isDay === 1 || isDay === true);
+
+            // Tormentas
+            if (code >= 95) {
+                return windKph >= 40 ? '⛈️💨' : '⛈️';
+            }
+
+            // Nieve / aguanieve
+            if ((code >= 71 && code <= 77) || (code >= 85 && code <= 86)) {
+                return '❄️';
+            }
+
+            // Lluvias
+            if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) {
+                // Intensidad aproximada con precipMm
+                if (precipMm >= 7) return windKph >= 40 ? '🌧️💨' : '🌧️';
+                if (precipMm >= 2) return '🌧️';
+                return day ? '🌦️' : '🌧️';
+            }
+
+            // Niebla / bruma
+            if (code >= 45 && code <= 48) {
+                return '🌫️';
+            }
+
+            // Nubosidad
+            if (code === 3) return '☁️';
+            if (code === 2) return day ? '⛅' : '☁️🌙';
+            if (code === 1) return day ? '🌤️' : '🌙';
+            if (code === 0) return day ? '☀️' : '🌙';
+
+            // Desconocido
+            return day ? '🌤️' : '🌙';
         }
 
         function updateFooterWeather(weatherData, locationName, temp, humidity, windSpeed, weatherIcon, weatherDesc) {
@@ -3484,43 +3532,115 @@
             const precipitation = (data.current.precip_mm || data.current.precipitation || 0);
             const weatherDesc = data.current.condition?.text || getWeatherDescription(data.current.weather_code) || 'Variable';
             const weatherCode = data.current.condition?.code || data.current.weather_code || 0;
-            const weatherIcon = getWeatherIcon(weatherCode);
+            const isDay = (data.current.is_day ?? 1);
+            const weatherIcon = getWeatherIconAdvanced(
+                weatherCode,
+                isDay,
+                windSpeed,
+                precipitation
+            );
             const uvIndex = Math.round(data.current.uv || 0);
             const uvLevel = getUVLevel(uvIndex);
 
-            // Obtener datos horarios de próximas 24 horas (simulado para WeatherAPI)
+            // Obtener datos horarios reales de próximas 12 horas (Open-Meteo)
             let hourlyHTML = '<div class="hourly-forecast">';
-            for (let i = 0; i < 12; i++) {
-                const hour = (new Date().getHours() + i) % 24;
-                const timeStr = String(hour).padStart(2, '0') + ':00';
-                const hourTemp = Math.round(temp - Math.floor(Math.random() * 3));
-                hourlyHTML += `
-                    <div class="hourly-item">
-                        <div class="hourly-time">${timeStr}</div>
-                        <div class="hourly-icon">☀️</div>
-                        <div class="hourly-temp">${hourTemp}°</div>
-                        <div class="hourly-precip">-</div>
-                    </div>
-                `;
+            try {
+                const h = data.hourly || {};
+                const times = h.time || [];
+                const temps = h.temperature_2m || [];
+                const codes = h.weather_code || [];
+                const isDayArr = h.is_day || [];
+                const precips = h.precipitation || [];
+                const rains = h.rain || [];
+
+                // Buscar índice de hora actual o próxima
+                const now = new Date();
+                let startIdx = 0;
+                for (let i = 0; i < times.length; i++) {
+                    const t = new Date(times[i]);
+                    if (t >= now) { startIdx = i; break; }
+                }
+
+                for (let i = 0; i < 12; i++) {
+                    const idx = Math.min(startIdx + i, times.length - 1);
+                    if (idx < 0) break;
+                    const t = new Date(times[idx]);
+                    const hh = String(t.getHours()).padStart(2, '0') + ':00';
+                    const tC = Math.round(Number(temps[idx] ?? temp));
+                    const codeH = Number(codes[idx] ?? data.current.weather_code ?? 0);
+                    const isDayH = Number(isDayArr[idx] ?? isDay ?? 1);
+                    const precipH = Number(precips[idx] ?? rains[idx] ?? 0);
+                    const iconH = getWeatherIconAdvanced(codeH, isDayH, windSpeed, precipH);
+                    const precipTxt = precipH > 0 ? `${precipH.toFixed(1)}mm` : '-';
+
+                    hourlyHTML += `
+                        <div class="hourly-item" title="${precipTxt}">
+                            <div class="hourly-time">${hh}</div>
+                            <div class="hourly-icon">${iconH}</div>
+                            <div class="hourly-temp">${tC}°</div>
+                            <div class="hourly-precip">${precipTxt}</div>
+                        </div>
+                    `;
+                }
+            } catch(_) {
+                // Fallback mínimo si faltan datos
+                for (let i = 0; i < 12; i++) {
+                    const hour = (new Date().getHours() + i) % 24;
+                    const timeStr = String(hour).padStart(2, '0') + ':00';
+                    const hourTemp = Math.round(temp);
+                    hourlyHTML += `
+                        <div class="hourly-item">
+                            <div class="hourly-time">${timeStr}</div>
+                            <div class="hourly-icon">${getWeatherIconAdvanced(weatherCode, isDay, windSpeed, precipitation)}</div>
+                            <div class="hourly-temp">${hourTemp}°</div>
+                            <div class="hourly-precip">-</div>
+                        </div>
+                    `;
+                }
             }
             hourlyHTML += '</div>';
 
-            // Pronóstico de 7 días
+            // Pronóstico de 7 días real (Open-Meteo)
             const days = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sab'];
-            const today = new Date().getDay();
             let dailyHTML = '<div class="daily-forecast">';
-            for (let i = 0; i < 7; i++) {
-                const dayIndex = (today + i) % 7;
-                const maxTemp = Math.round(temp + 2 - Math.random() * 4);
-                const minTemp = Math.round(temp - 5 - Math.random() * 3);
-                dailyHTML += `
-                    <div class="daily-item">
-                        <div class="daily-day">${days[dayIndex]}</div>
-                        <div class="daily-icon">${weatherIcon}</div>
-                        <div class="daily-temp">${maxTemp}°</div>
-                        <div class="daily-minmax">Mín ${minTemp}°</div>
-                    </div>
-                `;
+            try {
+                const d = data.daily || {};
+                const dTimes = d.time || [];
+                const dCodes = d.weather_code || [];
+                const dMax = d.temperature_2m_max || [];
+                const dMin = d.temperature_2m_min || [];
+
+                for (let i = 0; i < Math.min(7, dTimes.length); i++) {
+                    const dDate = new Date(dTimes[i]);
+                    const dayName = days[dDate.getDay()];
+                    const codeD = Number(dCodes[i] ?? weatherCode);
+                    const iconD = getWeatherIconAdvanced(codeD, 1, 0, 0); // icono de día para pronóstico diario
+                    const maxT = Math.round(Number(dMax[i] ?? temp));
+                    const minT = Math.round(Number(dMin[i] ?? temp));
+
+                    dailyHTML += `
+                        <div class="daily-item">
+                            <div class="daily-day">${dayName}</div>
+                            <div class="daily-icon">${iconD}</div>
+                            <div class="daily-temp">${maxT}°</div>
+                            <div class="daily-minmax">Mín ${minT}°</div>
+                        </div>
+                    `;
+                }
+            } catch(_) {
+                // Fallback si no hay daily
+                const today = new Date().getDay();
+                for (let i = 0; i < 7; i++) {
+                    const dayIndex = (today + i) % 7;
+                    dailyHTML += `
+                        <div class="daily-item">
+                            <div class="daily-day">${days[dayIndex]}</div>
+                            <div class="daily-icon">${getWeatherIconAdvanced(weatherCode, 1, windSpeed, precipitation)}</div>
+                            <div class="daily-temp">${temp}°</div>
+                            <div class="daily-minmax">Mín ${temp - 3}°</div>
+                        </div>
+                    `;
+                }
             }
             dailyHTML += '</div>';
 
