@@ -22,7 +22,7 @@
             --border-light: #e0e0e0;
             --success-color: #f97316;
             --warning-color: #ff9800;
-            --header-offset: 72px;
+            --header-offset: 28px;
         }
 
         html, body {
@@ -49,8 +49,8 @@
             padding-top: var(--header-offset);
         }
 
-        /* ===== HEADER ===== */
-        header {
+        /* ===== HEADER (estilos viejos - ahora usa .header-sheet) ===== */
+        /* header {
             background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
             padding: 8px 20px;
             box-shadow: 0 4px 16px rgba(199, 92, 44, 0.15);
@@ -63,7 +63,7 @@
             border-bottom: 1px solid rgba(245, 165, 104, 0.15);
             width: 100vw;
             margin-left: calc(-50vw + 50%);
-        }
+        } */
 
         .header-content {
             max-width: 1400px;
@@ -188,6 +188,99 @@
             font-size: 0.9em;
             opacity: 0.85;
             font-weight: 500;
+        }
+
+        /* ===== COLLAPSIBLE HEADER ===== */
+        .header-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 998;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .header-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .header-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        .header-sheet {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
+            box-shadow: 0 4px 16px rgba(199, 92, 44, 0.15);
+            border-bottom: 1px solid rgba(245, 165, 104, 0.15);
+            pointer-events: auto;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+            position: relative;
+            width: 100%;
+        }
+
+        .header-sheet.collapsed {
+            transform: translateY(calc(-100% + 28px));
+        }
+
+        .header-expanded-content {
+            padding: 8px 20px;
+            max-height: 600px;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+            opacity: 1;
+        }
+
+        .header-sheet.collapsed .header-expanded-content {
+            max-height: 0;
+            opacity: 0;
+        }
+
+        .header-handle-area {
+            padding: 8px 0;
+            background: linear-gradient(180deg, 
+                rgba(255, 255, 255, 0.08) 0%, 
+                rgba(255, 255, 255, 0.04) 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: grab;
+            touch-action: none;
+            user-select: none;
+        }
+
+        .header-handle-area:active {
+            cursor: grabbing;
+        }
+
+        .header-handle {
+            width: 48px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 3px;
+            transition: all 0.2s ease;
+        }
+
+        .header-handle-area:hover .header-handle {
+            background: rgba(255, 255, 255, 0.7);
+            width: 56px;
+        }
+
+        .header-handle-area:active .header-handle {
+            background: rgba(255, 255, 255, 0.9);
         }
 
         /* ===== CONTAINER ===== */
@@ -829,7 +922,7 @@
             :root {
                 --header-offset: 120px;
             }
-            header {
+            /* header {
                 padding: 8px 16px;
             }
 
@@ -837,7 +930,7 @@
                 gap: 10px;
                 justify-content: space-between;
                 align-items: center;
-            }
+            } */
 
             .logo-brand {
                 flex-shrink: 0;
@@ -1015,7 +1108,7 @@
             :root {
                 --header-offset: 190px;
             }
-            header {
+            /* header {
                 padding: 8px 14px;
             }
 
@@ -1023,7 +1116,7 @@
                 gap: 0;
                 flex-direction: column;
                 align-items: flex-start;
-            }
+            } */
 
             .logo-brand {
                 width: 100%;
@@ -1289,66 +1382,326 @@
             letter-spacing: 0.2px;
         }
 
-        /* ===== FOOTER ===== */
-        footer {
-            background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
-            border-top: 1px solid rgba(245, 165, 104, 0.15);
-            padding: 8px 5px;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.95);
-            font-size: 0.75em;
-            animation: slideUp 0.4s ease 0.2s both;
-            letter-spacing: 0.2px;
+        /* ===== Professional draggable bottom-sheet footer ===== */
+        .footer-wrapper {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
             width: 100vw;
             z-index: 999;
-            margin-left: calc(-50vw + 50%);
+            pointer-events: none;
+        }
+
+        .footer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 998;
+        }
+
+        .footer-overlay.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .footer-sheet {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            box-shadow: 0 -8px 32px rgba(199, 92, 44, 0.25), 0 -2px 8px rgba(0,0,0,0.1);
+            transform: translateY(0);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: auto;
+            will-change: transform;
+            overflow: hidden;
+        }
+
+        .footer-sheet.collapsed {
+            transform: translateY(calc(100% - 28px));
+        }
+
+        .footer-handle-area {
+            padding: 8px 20px 6px 20px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 6px 12px;
+            justify-content: center;
+            cursor: grab;
+            touch-action: pan-y;
+            user-select: none;
+            -webkit-user-select: none;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
         }
 
-        .footer-content {
-            flex: 1;
+        .footer-handle-area:active {
+            cursor: grabbing;
+        }
+
+        .footer-handle {
+            width: 48px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 999px;
+            transition: all 0.2s ease;
+        }
+
+        .footer-handle-area:hover .footer-handle {
+            background: rgba(255, 255, 255, 0.65);
+            width: 56px;
+        }
+
+        .footer-expanded-content {
+            padding: 20px 24px 24px 24px;
+            background: white;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+        }
+
+        .footer-sheet:not(.collapsed) .footer-expanded-content {
+            max-height: 600px;
+            opacity: 1;
+        }
+
+        .footer-main-brand {
             text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid rgba(199, 92, 44, 0.1);
         }
 
-        footer p {
-            margin: 1px 0;
+        .footer-main-brand h3 {
+            margin: 0 0 6px 0;
+            color: var(--primary-green);
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+
+        .footer-main-brand p {
+            margin: 0;
+            color: #5a5a5a;
+            font-size: 0.9em;
             font-weight: 500;
         }
 
-        .footer-brand {
-            color: rgba(255, 255, 255, 1);
-            font-weight: 700;
-            letter-spacing: 0.2px;
+        .footer-actions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
-        .footer-insumos-btn {
-            padding: 6px 12px;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            color: white;
+        .footer-action-btn {
+            padding: 14px 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95em;
+            text-align: center;
             cursor: pointer;
-            font-size: 0.9em;
-            font-weight: 600;
             transition: all 0.2s ease;
+            border: none;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .footer-whatsapp-btn {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
+        }
+
+        .footer-whatsapp-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(37, 211, 102, 0.35);
+        }
+
+        .footer-action-insumos {
+            background: linear-gradient(135deg, var(--accent-green), var(--light-green));
+            color: white;
+            box-shadow: 0 4px 12px rgba(199, 92, 44, 0.25);
+        }
+
+        .footer-action-insumos:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(199, 92, 44, 0.35);
+        }
+
+        .footer-weather-section {
+            margin-bottom: 18px;
+        }
+
+        .footer-weather-section h4 {
+            margin: 0 0 12px 0;
+            color: var(--primary-green);
+            font-size: 0.95em;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .footer-weather-widget {
+            background: linear-gradient(135deg, rgba(232, 120, 79, 0.06) 0%, rgba(245, 165, 104, 0.06) 100%);
+            border: 1px solid rgba(199, 92, 44, 0.12);
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .footer-weather-loading {
+            text-align: center;
+            color: #999;
+            font-size: 0.85em;
+            padding: 10px;
+        }
+
+        .footer-weather-main {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-weather-icon {
+            font-size: 2.8em;
+            line-height: 1;
+        }
+
+        .footer-weather-temp-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-weather-temp {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--primary-green);
+            line-height: 1;
+        }
+
+        .footer-weather-desc {
+            font-size: 0.85em;
+            color: #666;
+            text-transform: capitalize;
+            margin-top: 2px;
+        }
+
+        .footer-weather-details {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .footer-weather-detail-row {
             display: flex;
             align-items: center;
             gap: 6px;
-            white-space: nowrap;
-            flex-shrink: 0;
+            font-size: 0.82em;
+            color: #5a5a5a;
         }
 
-        .footer-insumos-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.5);
-            transform: translateY(-1px);
+        .footer-weather-detail-row strong {
+            color: var(--primary-green);
+            font-weight: 600;
+        }
+
+        .footer-weather-location {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .footer-weather-location-name {
+            font-size: 0.85em;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .footer-weather-location-coords {
+            font-size: 0.75em;
+            color: #999;
+        }
+
+        .footer-info {
+            text-align: center;
+            padding-top: 14px;
+            border-top: 1px solid #e0e0e0;
+            color: #999;
+            font-size: 0.8em;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .footer-sheet.collapsed {
+                transform: translateY(calc(100% - 24px));
+            }
+            .footer-handle-area {
+                padding: 6px 16px 5px 16px;
+            }
+            .footer-expanded-content {
+                padding: 16px 18px 20px 18px;
+            }
+            .footer-actions-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .footer-action-btn {
+                padding: 12px 14px;
+                font-size: 0.9em;
+            }
+            .footer-weather-widget {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                text-align: center;
+                padding: 12px 14px;
+            }
+            .footer-weather-main {
+                justify-content: center;
+            }
+            .footer-weather-details {
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .footer-weather-location {
+                text-align: center;
+            }
+            
+            /* Header responsive */
+            .header-sheet.collapsed {
+                transform: translateY(calc(-100% + 24px));
+            }
+            .header-handle-area {
+                padding: 6px 0 5px 0;
+            }
+            .header-expanded-content {
+                padding: 8px 16px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .footer-sheet,
+            .footer-overlay,
+            .footer-expanded-content {
+                transition: none !important;
+            }
         }
 
         /* ===== INSUMOS MODAL ===== */
@@ -1532,23 +1885,6 @@
         }
 
         @media (max-width: 768px) {
-            footer {
-                flex-direction: column;
-                gap: 8px;
-                padding: 8px 10px;
-            }
-
-            .footer-content {
-                order: 2;
-            }
-
-            .footer-insumos-btn {
-                order: 1;
-                width: 100%;
-                justify-content: center;
-                padding: 8px 10px;
-            }
-
             .insumos-modal {
                 max-width: 95vw;
                 max-height: 90vh;
@@ -1585,34 +1921,6 @@
             .insumos-table td {
                 padding: 8px 10px;
             }
-        }
-
-        .floating-help {
-            position: fixed;
-            bottom: 70px;
-            right: 18px;
-            width: 48px;
-            height: 48px;
-            font-size: 22px;
-            background: linear-gradient(135deg, var(--accent-green), var(--light-green));
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 24px rgba(199, 92, 44, 0.22);
-            transition: all 0.2s ease;
-            z-index: 997;
-        }
-
-        .floating-help:hover {
-            transform: scale(1.1) translateY(-3px);
-            box-shadow: 0 12px 32px rgba(199, 92, 44, 0.28);
-        }
-
-        .floating-help:active {
-            transform: scale(0.95);
         }
 
         .back-to-top {
@@ -1706,13 +2014,6 @@
             .forms-nav, .navigation {
                 flex-direction: column;
                 gap: 10px;
-            }
-
-            .floating-help {
-                width: 44px;
-                height: 44px;
-                font-size: 20px;
-                bottom: 60px;
             }
 
             .search-wrapper {
@@ -1816,14 +2117,6 @@
                 font-size: 0.85em;
             }
 
-            .floating-help {
-                width: 40px;
-                height: 40px;
-                font-size: 18px;
-                bottom: 55px;
-                right: 14px;
-            }
-
             .dropdown-list {
                 max-width: 95%;
                 max-height: 75vh;
@@ -1866,6 +2159,8 @@
             right: 0;
             bottom: 0;
             background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             z-index: 2000;
             display: flex;
             align-items: center;
@@ -2338,29 +2633,38 @@
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <div class="logo-brand" onclick="scrollToTop(); backToMenu();">
-                <div class="logo-icon">🌾</div>
-                <div class="logo-text">
-                    <h1>AGRICOLE</h1>
-                    <p>Gestión Inteligente</p>
+    <div class="header-overlay" id="headerOverlay"></div>
+    
+    <div class="header-wrapper">
+        <header class="header-sheet" id="headerSheet">
+            <div class="header-expanded-content">
+                <div class="header-content">
+                    <div class="logo-brand" onclick="scrollToTop(); backToMenu();">
+                        <div class="logo-icon">🌾</div>
+                        <div class="logo-text">
+                            <h1>AGRICOLE</h1>
+                            <p>Gestión Inteligente</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Widget de información climática -->
+                    <div class="weather-widget" id="weatherWidget">
+                        <div class="datetime-info">
+                            <span class="date-display" id="dateDisplay"></span>
+                            <span class="time-display" id="timeDisplay"></span>
+                            <span class="location-display" id="locationDisplay"></span>
+                        </div>
+                        <div class="weather-info" id="weatherInfo">
+                            <span class="weather-loading">Cargando...</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
-            <!-- Widget de información climática -->
-            <div class="weather-widget" id="weatherWidget">
-                <div class="datetime-info">
-                    <span class="date-display" id="dateDisplay"></span>
-                    <span class="time-display" id="timeDisplay"></span>
-                    <span class="location-display" id="locationDisplay"></span>
-                </div>
-                <div class="weather-info" id="weatherInfo">
-                    <span class="weather-loading">Cargando...</span>
-                </div>
+            <div class="header-handle-area" id="headerHandleArea">
+                <div class="header-handle"></div>
             </div>
-        </div>
-    </header>
+        </header>
+    </div>
 
     <!-- EXPANDED WEATHER SECTION -->
     <div class="expanded-weather-section" id="expandedWeatherSection" style="display: none;">
@@ -2457,15 +2761,40 @@
         </div>
     </div>
 
-    <footer>
-        <button class="footer-insumos-btn" onclick="openInsumosModal()" title="Ver insumos aceptados">
-            🧪 Insumos Aceptados
-        </button>
-        <div class="footer-content">
-            <p><span class="footer-brand">🌾 AGRICOLE COOPERATIVA</span></p>
-            <p>Gestión Profesional de Parcelas Agrícolas</p>
+    <div class="footer-overlay" id="footerOverlay"></div>
+    
+    <div class="footer-wrapper">
+        <div class="footer-sheet collapsed" id="footerSheet">
+            <div class="footer-handle-area" id="footerHandleArea">
+                <div class="footer-handle"></div>
+            </div>
+            <div class="footer-expanded-content">
+                <div class="footer-main-brand">
+                    <h3>🌾 AGRICOLE COOPERATIVA</h3>
+                    <p>Gestión Profesional de Parcelas Agrícolas</p>
+                </div>
+                <div class="footer-actions-grid">
+                    <a href="https://wa.me/573187284464?text=Hola%20AGRICOLE%20COOPERATIVA,%20tengo%20una%20consulta..." 
+                       target="_blank" 
+                       class="footer-action-btn footer-whatsapp-btn">
+                        💬 WhatsApp
+                    </a>
+                    <button class="footer-action-btn footer-action-insumos" onclick="openInsumosModal()">
+                        🧪 Insumos Aceptados
+                    </button>
+                </div>
+                <div class="footer-weather-section">
+                    <h4>Clima Actual</h4>
+                    <div class="footer-weather-widget" id="footerWeather">
+                        <div class="footer-weather-loading">Cargando clima...</div>
+                    </div>
+                </div>
+                <div class="footer-info">
+                    © <span id="footerYear"></span> AGRICOLE • Sistema de gestión agrícola
+                </div>
+            </div>
         </div>
-    </footer>
+    </div>
 
     <!-- INSUMOS MODAL -->
     <div class="insumos-modal-overlay" id="insumosModalOverlay">
@@ -2479,10 +2808,6 @@
             </div>
         </div>
     </div>
-
-    <a href="https://wa.me/573187284464?text=Hola%20AGRICOLE%20COOPERATIVA,%20tengo%20una%20consulta..." class="floating-help" target="_blank" title="Contactar por WhatsApp">
-        💬
-    </a>
 
     <button class="back-to-top" onclick="scrollToTop()" title="Volver al inicio">
         ⬆️
@@ -2996,6 +3321,9 @@
                 document.getElementById('weatherInfo').innerHTML = weatherHTML;
                 makeWeatherClickable();
                 
+                // Actualizar footer weather widget
+                updateFooterWeather(weatherData, locationName, temp, humidity, windSpeed, weatherIcon, weatherDesc);
+                
             } catch (error) {
                 console.error('Error obteniendo clima:', error);
                 document.getElementById('weatherInfo').innerHTML = `
@@ -3032,6 +3360,35 @@
             if (code >= 80 && code <= 82) return '🌦️';
             if (code >= 95) return '⛈️';
             return '🌤️';
+        }
+
+        function updateFooterWeather(weatherData, locationName, temp, humidity, windSpeed, weatherIcon, weatherDesc) {
+            const footerWeatherEl = document.getElementById('footerWeather');
+            if (!footerWeatherEl) return;
+
+            const uvIndex = Math.round(weatherData.current.uv || 0);
+            const precipitation = weatherData.current.precip_mm || 0;
+
+            const footerWeatherHTML = `
+                <div class="footer-weather-main">
+                    <div class="footer-weather-icon">${weatherIcon}</div>
+                    <div class="footer-weather-temp-info">
+                        <div class="footer-weather-temp">${temp}°C</div>
+                        <div class="footer-weather-desc">${weatherDesc}</div>
+                    </div>
+                </div>
+                <div class="footer-weather-details">
+                    <div class="footer-weather-detail-row">💧 <strong>${humidity}%</strong> Humedad</div>
+                    <div class="footer-weather-detail-row">💨 <strong>${windSpeed} km/h</strong> Viento</div>
+                    <div class="footer-weather-detail-row">☀️ <strong>UV ${uvIndex}</strong></div>
+                    <div class="footer-weather-detail-row">🌧️ <strong>${precipitation.toFixed(1)} mm</strong></div>
+                </div>
+                <div class="footer-weather-location">
+                    <div class="footer-weather-location-name">📍 ${locationName}</div>
+                </div>
+            `;
+
+            footerWeatherEl.innerHTML = footerWeatherHTML;
         }
 
         function initWeatherWidget() {
@@ -3231,15 +3588,19 @@
             
             // Permitir cerrar al clickear fuera del modal
             const expandedSection = document.getElementById('expandedWeatherSection');
-            expandedSection.addEventListener('click', function(e) {
+            expandedSection.onclick = function(e) {
                 if (e.target === expandedSection) {
                     closeExpandedWeather();
                 }
-            });
+            };
         }
 
         function closeExpandedWeather() {
             document.getElementById('expandedWeatherSection').style.display = 'none';
+            // Colapsar el header y quitar el blur
+            if (typeof window.closeHeader === 'function') {
+                window.closeHeader();
+            }
         }
 
         // Iniciar widget cuando cargue la página
@@ -3417,6 +3778,417 @@
             const overlay = document.getElementById('insumosModalOverlay');
             overlay.classList.remove('active');
         }
+
+        // ===== Footer profesional con drag gestures =====
+        (function initDraggableFooter() {
+            const sheet = document.getElementById('footerSheet');
+            const overlay = document.getElementById('footerOverlay');
+            const handleArea = document.getElementById('footerHandleArea');
+            const yearSpan = document.getElementById('footerYear');
+            
+            if (!sheet || !overlay || !handleArea) return;
+            if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+
+            const STORAGE_KEY = 'agricole.footer.state';
+            const COLLAPSED_CLASS = 'collapsed';
+            const VISIBLE_CLASS = 'visible';
+            
+            let isCollapsed = true;
+            let isDragging = false;
+            let startY = 0;
+            let currentTranslate = 0;
+            let animationID = null;
+
+            // Cargar estado guardado
+            const loadState = () => {
+                try {
+                    const saved = localStorage.getItem(STORAGE_KEY);
+                    return saved === 'expanded' ? false : true;
+                } catch (_) { return true; }
+            };
+
+            const saveState = (collapsed) => {
+                try {
+                    localStorage.setItem(STORAGE_KEY, collapsed ? 'collapsed' : 'expanded');
+                } catch (_) {}
+            };
+
+            const applyState = (collapsed, skipTransition = false) => {
+                isCollapsed = collapsed;
+                if (skipTransition) {
+                    sheet.style.transition = 'none';
+                    overlay.style.transition = 'none';
+                }
+                sheet.classList.toggle(COLLAPSED_CLASS, collapsed);
+                overlay.classList.toggle(VISIBLE_CLASS, !collapsed);
+                
+                // Limpiar estilos inline para asegurar que CSS tome control
+                requestAnimationFrame(() => {
+                    if (collapsed) {
+                        sheet.style.transform = '';
+                        overlay.style.opacity = '';
+                    }
+                });
+                
+                if (skipTransition) {
+                    requestAnimationFrame(() => {
+                        sheet.style.transition = '';
+                        overlay.style.transition = '';
+                    });
+                }
+                saveState(collapsed);
+            };
+
+            const expand = () => applyState(false);
+            const collapse = () => applyState(true);
+            window.closeFooter = collapse; // usado en enlaces
+
+            // Inicializar
+            applyState(loadState(), true);
+
+            // Click en overlay cierra y limpia todo
+            overlay.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (!isCollapsed) {
+                    // Asegurar limpieza completa
+                    sheet.style.transform = '';
+                    overlay.style.opacity = '';
+                    collapse();
+                }
+            });
+
+            // Drag handlers
+            const getClientY = (e) => {
+                return e.touches ? e.touches[0].clientY : e.clientY;
+            };
+
+            const onDragStart = (e) => {
+                isDragging = true;
+                startY = getClientY(e);
+                currentTranslate = 0;
+                sheet.style.transition = 'none';
+                overlay.style.transition = 'none';
+                handleArea.style.cursor = 'grabbing';
+            };
+
+            const onDragMove = (e) => {
+                if (!isDragging) return;
+                
+                const currentY = getClientY(e);
+                const deltaY = currentY - startY;
+                
+                if (isCollapsed) {
+                    // Si está colapsado, permitir arrastre hacia arriba (valores negativos)
+                    currentTranslate = Math.min(0, deltaY);
+                } else {
+                    // Si está expandido, permitir arrastre hacia abajo (valores positivos)
+                    currentTranslate = Math.max(0, deltaY);
+                }
+
+                if (animationID) cancelAnimationFrame(animationID);
+                animationID = requestAnimationFrame(() => {
+                    sheet.style.transform = `translateY(${currentTranslate}px)`;
+                    
+                    // Fade overlay mientras arrastra
+                    if (!isCollapsed) {
+                        const progress = Math.min(1, Math.abs(currentTranslate) / 200);
+                        overlay.style.opacity = String(1 - progress);
+                    }
+                });
+            };
+
+            const onDragEnd = () => {
+                if (!isDragging) return;
+                isDragging = false;
+                handleArea.style.cursor = '';
+                
+                sheet.style.transition = '';
+                overlay.style.transition = '';
+                sheet.style.transform = '';
+                overlay.style.opacity = '';
+
+                const threshold = 60;
+
+                if (isCollapsed && currentTranslate < -threshold) {
+                    // Arrastró hacia arriba desde colapsado -> expandir
+                    expand();
+                } else if (!isCollapsed && currentTranslate > threshold) {
+                    // Arrastró hacia abajo desde expandido -> colapsar
+                    collapse();
+                } else {
+                    // No alcanzó threshold, volver al estado actual
+                    applyState(isCollapsed);
+                }
+
+                currentTranslate = 0;
+            };
+
+            // Mouse events
+            handleArea.addEventListener('mousedown', onDragStart);
+            document.addEventListener('mousemove', onDragMove);
+            document.addEventListener('mouseup', onDragEnd);
+
+            // Touch events
+            handleArea.addEventListener('touchstart', onDragStart, { passive: true });
+            document.addEventListener('touchmove', onDragMove, { passive: true });
+            document.addEventListener('touchend', onDragEnd);
+
+            // Click en el handle alterna estado
+            handleArea.addEventListener('click', (e) => {
+                if (Math.abs(currentTranslate) < 5) { // Solo si no hubo drag
+                    isCollapsed ? expand() : collapse();
+                }
+            });
+
+            // ESC para cerrar
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !isCollapsed) {
+                    collapse();
+                }
+            });
+
+            // Guardado automático al tocar pantalla después de cambio
+            let needsSave = false;
+            sheet.addEventListener('transitionend', (e) => { 
+                needsSave = true;
+                // Limpiar estilos inline cuando está colapsado
+                if (e.target === sheet && isCollapsed) {
+                    overlay.style.opacity = '';
+                    overlay.style.pointerEvents = '';
+                }
+            });
+            document.addEventListener('pointerdown', () => {
+                if (needsSave) {
+                    saveState(isCollapsed);
+                    needsSave = false;
+                }
+            }, { passive: true });
+        })();
+
+        // ===== HEADER COLAPSABLE =====
+        (function initDraggableHeader() {
+            const sheet = document.getElementById('headerSheet');
+            const overlay = document.getElementById('headerOverlay');
+            const handleArea = document.getElementById('headerHandleArea');
+            
+            if (!sheet || !overlay || !handleArea) return;
+
+            const STORAGE_KEY = 'agricole.header.state';
+            const COLLAPSED_CLASS = 'collapsed';
+            const ACTIVE_CLASS = 'active';
+            
+            let isCollapsed = true;
+            let isDragging = false;
+            let startY = 0;
+            let currentTranslate = 0;
+            let animationID = null;
+
+            // Cargar estado guardado
+            const loadState = () => {
+                try {
+                    const saved = localStorage.getItem(STORAGE_KEY);
+                    if (saved) {
+                        return saved === 'expanded' ? false : true;
+                    }
+                    // En móvil (≤768px), iniciar expandido por defecto para ver el clima
+                    const isMobile = window.innerWidth <= 768;
+                    return isMobile ? false : true; // false = expandido, true = colapsado
+                } catch (_) { 
+                    const isMobile = window.innerWidth <= 768;
+                    return isMobile ? false : true;
+                }
+            };
+
+            const saveState = (collapsed) => {
+                try {
+                    localStorage.setItem(STORAGE_KEY, collapsed ? 'collapsed' : 'expanded');
+                } catch (_) {}
+            };
+
+            const applyState = (collapsed, skipTransition = false) => {
+                isCollapsed = collapsed;
+                if (skipTransition) {
+                    sheet.style.transition = 'none';
+                    overlay.style.transition = 'none';
+                }
+                sheet.classList.toggle(COLLAPSED_CLASS, collapsed);
+                overlay.classList.toggle(ACTIVE_CLASS, !collapsed);
+                
+                // Ajustar offset del contenido según estado
+                // Usar doble RAF para asegurar que el DOM esté renderizado
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        const isMobile = window.innerWidth <= 768;
+                        const isSmallMobile = window.innerWidth <= 480;
+                        const collapsedHeight = isMobile ? 24 : 28;
+                        
+                        let expandedHeight;
+                        if (collapsed) {
+                            // Si está colapsado, usar valores predefinidos
+                            expandedHeight = isSmallMobile ? 190 : (isMobile ? 120 : 72);
+                        } else {
+                            // Si está expandido, obtener altura real o usar fallback
+                            expandedHeight = sheet.offsetHeight || (isSmallMobile ? 190 : (isMobile ? 120 : 72));
+                        }
+                        
+                        const newOffset = collapsed ? collapsedHeight : expandedHeight;
+                        document.documentElement.style.setProperty('--header-offset', `${newOffset}px`);
+                    });
+                });
+                
+                // Limpiar estilos inline para asegurar que CSS tome control
+                requestAnimationFrame(() => {
+                    if (collapsed) {
+                        sheet.style.transform = '';
+                        overlay.style.opacity = '';
+                    }
+                });
+                
+                if (skipTransition) {
+                    requestAnimationFrame(() => {
+                        sheet.style.transition = '';
+                        overlay.style.transition = '';
+                    });
+                }
+                saveState(collapsed);
+            };
+
+            const expand = () => applyState(false);
+            const collapse = () => applyState(true);
+            window.closeHeader = collapse; // para cerrar desde fuera si es necesario
+
+            // Inicializar
+            applyState(loadState(), true);
+
+            // Click en overlay cierra y limpia todo
+            overlay.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (!isCollapsed) {
+                    // Asegurar limpieza completa
+                    sheet.style.transform = '';
+                    overlay.style.opacity = '';
+                    collapse();
+                }
+            });
+
+            // Drag handlers
+            const getClientY = (e) => {
+                return e.touches ? e.touches[0].clientY : e.clientY;
+            };
+
+            const onDragStart = (e) => {
+                isDragging = true;
+                startY = getClientY(e);
+                currentTranslate = 0;
+                sheet.style.transition = 'none';
+                overlay.style.transition = 'none';
+                handleArea.style.cursor = 'grabbing';
+            };
+
+            const onDragMove = (e) => {
+                if (!isDragging) return;
+                
+                const currentY = getClientY(e);
+                const deltaY = currentY - startY;
+                
+                if (isCollapsed) {
+                    // Si está colapsado, permitir arrastre hacia abajo (valores positivos)
+                    currentTranslate = Math.max(0, deltaY);
+                } else {
+                    // Si está expandido, permitir arrastre hacia arriba (valores negativos)
+                    currentTranslate = Math.min(0, deltaY);
+                }
+
+                if (animationID) cancelAnimationFrame(animationID);
+                animationID = requestAnimationFrame(() => {
+                    sheet.style.transform = `translateY(${currentTranslate}px)`;
+                    
+                    // Fade overlay mientras arrastra
+                    if (!isCollapsed) {
+                        const progress = Math.min(1, Math.abs(currentTranslate) / 200);
+                        overlay.style.opacity = String(1 - progress);
+                    }
+                });
+            };
+
+            const onDragEnd = () => {
+                if (!isDragging) return;
+                isDragging = false;
+                handleArea.style.cursor = '';
+                
+                sheet.style.transition = '';
+                overlay.style.transition = '';
+                sheet.style.transform = '';
+                overlay.style.opacity = '';
+
+                const threshold = 60;
+
+                if (isCollapsed && currentTranslate > threshold) {
+                    // Arrastró hacia abajo desde colapsado -> expandir
+                    expand();
+                } else if (!isCollapsed && currentTranslate < -threshold) {
+                    // Arrastró hacia arriba desde expandido -> colapsar
+                    collapse();
+                } else {
+                    // No alcanzó threshold, volver al estado actual
+                    applyState(isCollapsed);
+                }
+
+                currentTranslate = 0;
+            };
+
+            // Mouse events
+            handleArea.addEventListener('mousedown', onDragStart);
+            document.addEventListener('mousemove', onDragMove);
+            document.addEventListener('mouseup', onDragEnd);
+
+            // Touch events
+            handleArea.addEventListener('touchstart', onDragStart, { passive: true });
+            document.addEventListener('touchmove', onDragMove, { passive: true });
+            document.addEventListener('touchend', onDragEnd);
+
+            // Click en el handle alterna estado
+            handleArea.addEventListener('click', (e) => {
+                if (Math.abs(currentTranslate) < 5) { // Solo si no hubo drag
+                    isCollapsed ? expand() : collapse();
+                }
+            });
+
+            // ESC para cerrar
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !isCollapsed) {
+                    collapse();
+                }
+            });
+
+            // Guardado automático al tocar pantalla después de cambio
+            let needsSave = false;
+            sheet.addEventListener('transitionend', (e) => { 
+                needsSave = true;
+                // Limpiar estilos inline cuando está colapsado
+                if (e.target === sheet && isCollapsed) {
+                    overlay.style.opacity = '';
+                    overlay.style.pointerEvents = '';
+                }
+            });
+            document.addEventListener('pointerdown', () => {
+                if (needsSave) {
+                    saveState(isCollapsed);
+                    needsSave = false;
+                }
+            }, { passive: true });
+
+            // Ajustar offset cuando cambia el tamaño de la ventana
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    applyState(isCollapsed, true);
+                }, 100);
+            });
+        })();
     </script>
 </body>
 </html>
