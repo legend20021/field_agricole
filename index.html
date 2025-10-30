@@ -2224,11 +2224,6 @@
                         iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSderhcnfMcRYkHWixIF5Yg6aXUw4CgiHb-VoHhwlpXVuAuMPA/viewform?embedded=true" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0"></iframe>'
                     },
                     {
-                        id: 'plagas',
-                        name: 'Plagas y Enfermedades',
-                        iframe: null
-                    },
-                    {
                         id: 'labores',
                         name: 'Control de labores de la tierra',
                         iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd2j5OmXJ7T5mfjV5Zuc2vJYgTMEp2gVbWBJC2Be9T9GSaWJQ/viewform?embedded=true" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0"></iframe>'
@@ -2241,7 +2236,13 @@
                     {
                         id: 'mantenimiento',
                         name: 'Mantenimiento de Herramientas y Maquinaria',
-                        iframe: null
+                        iframe: '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdkapSGLHgsCuDUYVko5HtE_DSsBAlkxWD5NVj8dORncCjGJA/viewform?embedded=true" width="640" height="2920" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>'
+                    },
+                    {
+                        id: 'malezas',
+                        name: 'Control de Malezas y Enfermedades',
+                        iframe: null,
+                        link: 'https://docs.google.com/forms/d/e/1FAIpQLSf80O7igBuMxAWKhiSzR7jMoKloLpto811LfYzTWKLk1lNttw/viewform?usp=header'
                     }
                 ]
             },
@@ -2386,8 +2387,8 @@
                 'cosecha': '🌽',
                 'riego': '💦',
                 'labores': '🚜',
-                'plagas': '🌾',
-                'mantenimiento': '🔧'
+                'mantenimiento': '🔧',
+                'malezas': '🍃'
             };
 
             parcela.forms.forEach((form) => {
@@ -2437,6 +2438,18 @@
             if (form.iframe) {
                 formContent.innerHTML = form.iframe;
                 disableIframeScroll();
+            } else if (form.link) {
+                // Mostrar enlace al formulario externo
+                formContent.innerHTML = `
+                    <div style="padding: 40px 20px; text-align: center; background: linear-gradient(135deg, #f5a568 0%, #e8784f 100%); border-radius: 8px; color: white;">
+                        <div style="font-size: 48px; margin-bottom: 15px;">🔗</div>
+                        <h3 style="margin: 0 0 10px 0; font-size: 20px;">${formName}</h3>
+                        <p style="margin: 0 0 20px 0; font-size: 14px; opacity: 0.9;">Accede al formulario en Google Forms</p>
+                        <a href="${form.link}" target="_blank" style="display: inline-block; padding: 12px 24px; background: white; color: #c75c2c; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 16px; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.2);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(0,0,0,0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.2)';">
+                            🚀 Abrir Formulario
+                        </a>
+                    </div>
+                `;
             } else {
                 // Mostrar placeholder para elementos sin formulario
                 formContent.innerHTML = `
