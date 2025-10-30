@@ -1306,6 +1306,15 @@
             width: 100vw;
             z-index: 999;
             margin-left: calc(-50vw + 50%);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 12px;
+        }
+
+        .footer-content {
+            flex: 1;
+            text-align: center;
         }
 
         footer p {
@@ -1317,6 +1326,265 @@
             color: rgba(255, 255, 255, 1);
             font-weight: 700;
             letter-spacing: 0.2px;
+        }
+
+        .footer-insumos-btn {
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .footer-insumos-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-1px);
+        }
+
+        /* ===== INSUMOS MODAL ===== */
+        .insumos-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            z-index: 9999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .insumos-modal-overlay.active {
+            display: flex;
+            opacity: 1;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .insumos-modal {
+            position: relative;
+            background: white;
+            border-radius: 16px;
+            z-index: 10000;
+            box-shadow: 0 50px 150px rgba(0, 0, 0, 0.4);
+            width: 95%;
+            max-width: 900px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            animation: slideUp 0.3s ease;
+        }
+
+        .insumos-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
+            border-bottom: none;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .insumos-modal-header h2 {
+            color: white;
+            font-size: 1.35em;
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .insumos-modal-close {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            font-size: 28px;
+            cursor: pointer;
+            color: white;
+            padding: 0;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+            border-radius: 50%;
+            position: relative;
+            z-index: 2;
+            font-weight: 300;
+            line-height: 1;
+        }
+
+        .insumos-modal-close:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: rotate(90deg) scale(1.08);
+        }
+
+        .insumos-modal-content {
+            display: flex;
+            flex-direction: column;
+            padding: 20px 24px;
+            flex: 1;
+            overflow-y: auto;
+            gap: 20px;
+        }
+
+        .insumos-category {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .insumos-category-title {
+            font-size: 1.15em;
+            font-weight: 700;
+            color: var(--primary-green);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid rgba(199, 92, 44, 0.2);
+        }
+
+        .insumos-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+
+        .insumos-table thead {
+            background: rgba(199, 92, 44, 0.08);
+        }
+
+        .insumos-table th {
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 700;
+            color: var(--primary-green);
+            border-bottom: 2px solid rgba(199, 92, 44, 0.15);
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .insumos-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e8e8e8;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .insumos-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .insumos-table tbody tr:hover {
+            background: rgba(199, 92, 44, 0.04);
+        }
+
+        .insumos-table td.insumo-name {
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+
+        .insumos-table td.insumo-specs {
+            font-size: 0.85em;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .insumos-modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .insumos-modal-content::-webkit-scrollbar-track {
+            background: #f8f8f8;
+            border-radius: 10px;
+        }
+
+        .insumos-modal-content::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--accent-green), var(--light-green));
+            border-radius: 10px;
+        }
+
+        .insumos-modal-content::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--primary-green), var(--accent-green));
+        }
+
+        @media (max-width: 768px) {
+            footer {
+                flex-direction: column;
+                gap: 8px;
+                padding: 8px 10px;
+            }
+
+            .footer-content {
+                order: 2;
+            }
+
+            .footer-insumos-btn {
+                order: 1;
+                width: 100%;
+                justify-content: center;
+                padding: 8px 10px;
+            }
+
+            .insumos-modal {
+                max-width: 95vw;
+                max-height: 90vh;
+            }
+
+            .insumos-modal-header {
+                padding: 16px 20px;
+            }
+
+            .insumos-modal-header h2 {
+                font-size: 1.1em;
+            }
+
+            .insumos-modal-close {
+                width: 40px;
+                height: 40px;
+                font-size: 24px;
+            }
+
+            .insumos-modal-content {
+                padding: 16px 20px;
+                gap: 16px;
+            }
+
+            .insumos-category-title {
+                font-size: 1em;
+            }
+
+            .insumos-table {
+                font-size: 0.85em;
+            }
+
+            .insumos-table th,
+            .insumos-table td {
+                padding: 8px 10px;
+            }
         }
 
         .floating-help {
@@ -2190,9 +2458,27 @@
     </div>
 
     <footer>
-        <p><span class="footer-brand">🌾 AGRICOLE COOPERATIVA</span></p>
-        <p>Gestión Profesional de Parcelas Agrícolas</p>
+        <button class="footer-insumos-btn" onclick="openInsumosModal()" title="Ver insumos aceptados">
+            🧪 Insumos Aceptados
+        </button>
+        <div class="footer-content">
+            <p><span class="footer-brand">🌾 AGRICOLE COOPERATIVA</span></p>
+            <p>Gestión Profesional de Parcelas Agrícolas</p>
+        </div>
     </footer>
+
+    <!-- INSUMOS MODAL -->
+    <div class="insumos-modal-overlay" id="insumosModalOverlay">
+        <div class="insumos-modal" id="insumosModal">
+            <div class="insumos-modal-header">
+                <h2>🧪 Insumos Aceptados</h2>
+                <button class="insumos-modal-close" onclick="closeInsumosModal()">✕</button>
+            </div>
+            <div class="insumos-modal-content" id="insumosModalContent">
+                <!-- Contenido generado dinámicamente por JavaScript -->
+            </div>
+        </div>
+    </div>
 
     <a href="https://wa.me/573187284464?text=Hola%20AGRICOLE%20COOPERATIVA,%20tengo%20una%20consulta..." class="floating-help" target="_blank" title="Contactar por WhatsApp">
         💬
@@ -2636,6 +2922,10 @@
                     const response = await fetch(weatherUrl);
                     const data = await response.json();
                     
+                    // Obtener UV actual desde serie horaria (hora local)
+                    const hourIndex = new Date().getHours();
+                    const currentUV = (data.hourly && data.hourly.uv_index) ? (Math.round(data.hourly.uv_index[hourIndex] || 0)) : 0;
+                    
                     weatherData = {
                         current: {
                             temp_c: data.current.temperature_2m,
@@ -2646,8 +2936,10 @@
                                 text: getWeatherDescription(data.current.weather_code),
                                 code: data.current.weather_code
                             },
-                            uv: data.hourly.uv_index[new Date().getHours()] || 0
+                            uv: currentUV
                         },
+                        hourly: data.hourly,
+                        daily: data.daily,
                         location: { name: locationName }
                     };
                 }
@@ -2856,13 +3148,6 @@
             let hourlyHTML = '<div class="hourly-forecast">';
             for (let i = 0; i < 12; i++) {
                 const hour = (new Date().getHours() + i) % 24;
-                let hourUV = uvIndex;
-                
-                // Si tenemos datos de Open-Meteo
-                if (data.hourly && data.hourly.uv_index) {
-                    hourUV = Math.round(data.hourly.uv_index[hour] || 0);
-                }
-                
                 const timeStr = String(hour).padStart(2, '0') + ':00';
                 const hourTemp = Math.round(temp - Math.floor(Math.random() * 3));
                 hourlyHTML += `
@@ -2870,7 +3155,7 @@
                         <div class="hourly-time">${timeStr}</div>
                         <div class="hourly-icon">☀️</div>
                         <div class="hourly-temp">${hourTemp}°</div>
-                        <div class="hourly-precip">UV: ${hourUV}</div>
+                        <div class="hourly-precip">-</div>
                     </div>
                 `;
             }
@@ -2959,6 +3244,179 @@
 
         // Iniciar widget cuando cargue la página
         document.addEventListener('DOMContentLoaded', initWeatherWidget);
+
+        // ===== DATOS DE INSUMOS ACEPTADOS =====
+        const insumosData = {
+            fertilizantes: [
+                { nombre: 'ÁCIDOS CARBOXÍLICOS', empresa: 'Agroplasma Ferticell SA de CV', estado: 'Cumple' },
+                { nombre: 'AKIMEL', empresa: 'TECNIPROCESOS BIÓGICOS S.A. DE C.V', estado: 'Cumple' },
+                { nombre: 'BELENTANO', empresa: 'AMVAC México, S. de R.L. de C.V', estado: 'Cumple' },
+                { nombre: 'BIOAMIN', empresa: 'Diatomix S DE RL DE C.V', estado: 'Cumple' },
+                { nombre: 'BIODIATOMIX (Diatomix)', empresa: 'AMVAC México, S. de R.L. de C.V', estado: 'Cumple' },
+                { nombre: 'BIOQUITINA', empresa: 'Agroplasma Ferticell SA de CV', estado: 'Cumple' },
+                { nombre: 'BIOSPOR', empresa: 'Agroplasma Ferticell SA de CV', estado: 'Cumple' },
+                { nombre: 'Calcium 880 HS', empresa: 'Agroplasma Ferticell SA de CV', estado: 'Cumple' },
+                { nombre: 'ENGORDE', empresa: 'TECNIPROCESOS BIOLÓGICOS S.A. de C.V', estado: 'Cumple' },
+                { nombre: 'FITOGOP', empresa: 'Agroplasma Ferticell SA de CV', estado: 'Cumple' },
+                { nombre: 'H-Fulvic', empresa: 'Agroplasma Ferticell SA de CV', estado: 'Cumple' },
+                { nombre: 'HANDS-SOFT', empresa: 'AMVAC México, S. de R.L. de C.V', estado: 'Cumple' },
+                { nombre: 'HIERRO', empresa: 'Agroplasma Ferticell SA de CV', estado: 'Cumple' },
+                { nombre: 'Calcium 880 HS', empresa: 'Agroplasma Ferticell SA de CV', estado: 'Cumple' },
+                { nombre: 'KELPRO', empresa: 'TECNIPROCESOS BIOLÓGICOS S.A. DE C.V', estado: 'Cumple' },
+                { nombre: 'LARBIOL 2X', empresa: 'GreenCorp Biorganiks de México, S.A. de C.V', estado: 'Cumple' },
+                { nombre: 'MAGNESIO 19', empresa: 'Agroplasma Ferticell SA de CV', estado: 'Cumple' },
+                { nombre: 'MAYA MAGIC - 2001', empresa: 'AMVAC México, S. de R.L. de C.V', estado: 'Cumple' },
+                { nombre: 'Microelementos 1-0-0', empresa: 'Agroplasma Ferticell SA de CV', estado: 'Cumple' },
+                { nombre: 'NATURE ROOT®', empresa: 'Soluagro', estado: 'Cumple' },
+                { nombre: 'NIKTÉ-Ca', empresa: 'TECNIPROCESOS BIOLÓGICOS S.A. DE C.V', estado: 'Cumple' },
+                { nombre: 'Nutriplus 2.5-0-0', empresa: 'Agroplasma Ferticell SA de CV', estado: 'Cumple' },
+                { nombre: 'PERA-MIX®', empresa: 'Agroplasma Ferticell SA de CV', estado: 'Cumple' },
+                { nombre: 'ProPhos 0-20-0', empresa: 'TECNIPROCESOS BIOLÓGICOS S.A de C.V', estado: 'Cumple' },
+                { nombre: 'QUIPLAT', empresa: 'TEKNIPROCESOS BIOLÓGICOS S.A de C.V', estado: 'Cumple' },
+                { nombre: 'QUIPLAT (Enraizador Biológico)', empresa: 'Agroplasma Ferticell SA de CV', estado: 'Cumple' },
+                { nombre: 'SWAP CA', empresa: 'Agroplasma Ferticell SA de CV', estado: 'Cumple' },
+                { nombre: 'TIRANUS', empresa: 'Agroplasma Ferticell SA de CV', estado: 'Cumple' },
+                { nombre: 'TRITON', empresa: 'TEKNIPROCESOS BIOLÓGICOS S.A. de C.V', estado: 'Cumple' },
+                { nombre: 'VAZTE', empresa: 'SUKARNE AGROINDUSTRIAL S.A. DE C.V', estado: 'Cumple' },
+                { nombre: 'VioHache Compostas', empresa: 'TEKNIPROCESOS BIOLÓGICOS S.A. DE C.V', estado: 'Cumple' },
+                { nombre: 'XEXE', empresa: 'Agroplasma Ferticell SA de CV', estado: 'Cumple' },
+                { nombre: 'Zinc 40', empresa: 'Agroplasma Ferticell SA de CV', estado: 'Cumple' }
+            ],
+            plagas: [
+                { nombre: 'AGRIMECTIN', empresa: 'Formulabagro de México S. de R.L. de C.V', estado: 'Cumple' },
+                { nombre: 'AGROALLIUM', empresa: 'SOLUAGRO', estado: 'Cumple' },
+                { nombre: 'DIRIX', empresa: 'SOLUAGRO', estado: 'En proceso de validación pero sí sirve' },
+                { nombre: 'MicroClean', empresa: 'Koppert México', estado: 'Cumple' },
+                { nombre: 'PIREDOWN', empresa: 'Formulabagro de México S. de R.L. de C.V', estado: 'Cumple' },
+                { nombre: 'VERSUS 7', empresa: 'GreenCorp Biorganiks de México, S.A. de C.V', estado: 'Cumple' }
+            ],
+            limpieza: [
+                { nombre: 'BORO', empresa: 'Sanichem Latinoamérica S.A. de C.V', estado: 'Cumple' },
+                { nombre: 'CUPPER', empresa: 'Agroplasma Ferticell SA de CV', estado: 'Cumple' },
+                { nombre: 'DISPERMAX', empresa: 'SOLUAGRO', estado: 'Cumple' },
+                { nombre: 'Hipoclorito de Calcio', empresa: 'Hipoclorito de Calcio Granular', estado: 'Cumple' },
+                { nombre: 'Hipoclorito de Sodio', empresa: 'Sanichem Latinoamérica S.A. de C.V', estado: 'Cumple' },
+                { nombre: 'PERÓXIDO DE HIDRÓGENO AL 50%', empresa: 'Sanichem Latinoamérica S.A. de C.V', estado: 'Cumple' },
+                { nombre: 'SOSA CÁUSTICA EN ESCAMAS AL 99%', empresa: 'BioLaf Agro Orgánicos e Inocuidad', estado: 'Cumple' }
+            ]
+        };
+
+        function openInsumosModal() {
+            const overlay = document.getElementById('insumosModalOverlay');
+            const content = document.getElementById('insumosModalContent');
+            
+            // Crear contenido HTML para las tablas
+            let html = '';
+            
+            // Fertilizantes y apoyo a los cultivos
+            html += `
+                <div class="insumos-category">
+                    <h3 class="insumos-category-title">🌱 Fertilizantes y Apoyo a los Cultivos (${insumosData.fertilizantes.length})</h3>
+                    <table class="insumos-table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Empresa / Compañía</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            insumosData.fertilizantes.forEach(insumo => {
+                html += `
+                    <tr>
+                        <td class="insumo-name">${insumo.nombre}</td>
+                        <td class="insumo-specs">${insumo.empresa}</td>
+                        <td style="text-align: center; font-weight: 600; color: #16a34a;">${insumo.estado}</td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            // Productos para la gestión de plagas
+            html += `
+                <div class="insumos-category">
+                    <h3 class="insumos-category-title">🐛 Productos para la Gestión de Plagas (${insumosData.plagas.length})</h3>
+                    <table class="insumos-table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Empresa / Compañía</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            insumosData.plagas.forEach(insumo => {
+                const isValidating = insumo.estado.includes('proceso');
+                html += `
+                    <tr>
+                        <td class="insumo-name">${insumo.nombre}</td>
+                        <td class="insumo-specs">${insumo.empresa}</td>
+                        <td style="text-align: center; font-weight: 600; color: ${isValidating ? '#f97316' : '#16a34a'};">${insumo.estado}</td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            // Productos de limpieza y desinfección
+            html += `
+                <div class="insumos-category">
+                    <h3 class="insumos-category-title">🧹 Productos de Limpieza y Desinfección (${insumosData.limpieza.length})</h3>
+                    <table class="insumos-table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Empresa / Compañía</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            insumosData.limpieza.forEach(insumo => {
+                html += `
+                    <tr>
+                        <td class="insumo-name">${insumo.nombre}</td>
+                        <td class="insumo-specs">${insumo.empresa}</td>
+                        <td style="text-align: center; font-weight: 600; color: #16a34a;">${insumo.estado}</td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            content.innerHTML = html;
+            overlay.classList.add('active');
+            
+            // Permitir cerrar al clickear en overlay
+            overlay.onclick = (e) => {
+                if (e.target === overlay) {
+                    closeInsumosModal();
+                }
+            };
+        }
+
+        function closeInsumosModal() {
+            const overlay = document.getElementById('insumosModalOverlay');
+            overlay.classList.remove('active');
+        }
     </script>
 </body>
 </html>
